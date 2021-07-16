@@ -25,6 +25,8 @@ namespace SecondHandClothes.Data
 
         public DbSet<Comment> Comments { get; init; }
 
+        public DbSet<Size> Sizes { get; init; }
+
 
     }
 }

@@ -21,6 +21,7 @@
             SeedCategories(data);
             SeedConditions(data);
             SeedSexes(data);
+            SeedSizes(data);
 
 
             return app;
@@ -63,7 +64,7 @@
 
             data.Conditions.AddRange(new[]
             {
-                new Condition {ConditionType = "Нов"},
+                new Condition {ConditionType = "Като нов"},
                 new Condition {ConditionType = "Използван"},
                 new Condition {ConditionType = "Захабен"}
             });
@@ -82,7 +83,29 @@
             {
                 new Sex {SexType = "Мъж"},
                 new Sex {SexType = "Жена"},
+                new Sex {SexType = "Унисекс"},
                 new Sex {SexType = "Друг"}
+            });
+
+            data.SaveChanges();
+        }
+        private static void SeedSizes(SecondHandDbContext data)
+        {
+            if (data.Sizes.Any())
+            {
+                return;
+            }
+
+            data.Sizes.AddRange(new[]
+            {
+                new Size {SizeType = "2XS"},
+                new Size {SizeType = "XS"},
+                new Size {SizeType = "S"},
+                new Size {SizeType = "M"},
+                new Size {SizeType = "L"},
+                new Size {SizeType = "XL"},
+                new Size {SizeType = "2XL"},
+                new Size {SizeType = "3XL"}
             });
 
             data.SaveChanges();

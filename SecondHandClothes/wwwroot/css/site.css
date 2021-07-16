@@ -12,6 +12,12 @@ a {
   color: #0366d6;
 }
 
+body {
+    background-image: url(../Images/72a0557210e508960fac62b0108baaba.jpg);
+    background-repeat: no-repeat, repeat;
+    background-color: #cccccc;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

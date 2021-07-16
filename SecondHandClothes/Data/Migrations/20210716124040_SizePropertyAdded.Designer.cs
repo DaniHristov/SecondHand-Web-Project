@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SecondHandClothes.Data;
 
 namespace SecondHandClothes.Data.Migrations
 {
     [DbContext(typeof(SecondHandDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210716124040_SizePropertyAdded")]
+    partial class SizePropertyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,9 +322,10 @@ namespace SecondHandClothes.Data.Migrations
                     b.Property<int>("SexId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SizeId")
+                    b.Property<string>("Size")
+                        .IsRequired()
                         .HasMaxLength(4)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -336,8 +339,6 @@ namespace SecondHandClothes.Data.Migrations
                     b.HasIndex("ConditionId");
 
                     b.HasIndex("SexId");
-
-                    b.HasIndex("SizeId");
 
                     b.ToTable("Products");
                 });
@@ -376,21 +377,6 @@ namespace SecondHandClothes.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sexes");
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.Size", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("SizeType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -471,19 +457,11 @@ namespace SecondHandClothes.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SecondHandClothes.Data.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
 
                     b.Navigation("Condition");
 
                     b.Navigation("Sex");
-
-                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("SecondHandClothes.Data.Models.ProductImage", b =>
