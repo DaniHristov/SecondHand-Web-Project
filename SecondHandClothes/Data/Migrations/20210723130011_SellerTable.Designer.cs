@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SecondHandClothes.Data;
 
 namespace SecondHandClothes.Data.Migrations
 {
     [DbContext(typeof(SecondHandDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210723130011_SellerTable")]
+    partial class SellerTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -490,33 +492,33 @@ namespace SecondHandClothes.Data.Migrations
             modelBuilder.Entity("SecondHandClothes.Data.Models.Product", b =>
                 {
                     b.HasOne("SecondHandClothes.Data.Models.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SecondHandClothes.Data.Models.Condition", "Condition")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SecondHandClothes.Data.Models.Seller", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SecondHandClothes.Data.Models.Sex", "Sex")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("SexId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SecondHandClothes.Data.Models.Size", "Size")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -544,18 +546,8 @@ namespace SecondHandClothes.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("SecondHandClothes.Data.Models.Seller", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.Category", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.Condition", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("SecondHandClothes.Data.Models.Product", b =>
@@ -564,16 +556,6 @@ namespace SecondHandClothes.Data.Migrations
                 });
 
             modelBuilder.Entity("SecondHandClothes.Data.Models.Seller", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.Sex", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.Size", b =>
                 {
                     b.Navigation("Products");
                 });

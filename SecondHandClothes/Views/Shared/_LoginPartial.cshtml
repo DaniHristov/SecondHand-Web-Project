@@ -3,24 +3,27 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Профил</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Изход</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Login">Вход</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Sellers" asp-action="Стани">Започни да продаваш</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Профил</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Изход</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Login">Вход</a>
+        </li>
+    }
 </ul>

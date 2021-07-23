@@ -38,17 +38,20 @@
         public Size Size { get; set; }
 
         public int ConditionId { get; set; }
-        public Condition Condition { get; set; }
+        public Condition Condition { get; init; }
 
         public int SexId { get; set; }
-        public Sex Sex { get; set; }
+        public Sex Sex { get; init; }
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category Category { get; init; }
 
-        //public ICollection<ProductImage> ProductImages { get; init; }
+        public int SellerId { get; init; }
+
+        public Seller Seller { get; init; }
 
         public ICollection<Comment> Comments { get; init; }
 
+        //public ICollection<ProductImage> ProductImages { get; init; }
     }
 }

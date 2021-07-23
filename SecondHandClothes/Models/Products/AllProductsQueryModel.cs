@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     public class AllProductsQueryModel
     {
-        public const int ProductsPerPage = 2;
+        public const int ProductsPerPage = 3;
 
         [Display(Name = "Категория")]
         public string Category { get; init; }
