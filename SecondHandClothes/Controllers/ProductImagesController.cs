@@ -50,7 +50,7 @@ namespace SecondHandClothes.Controllers
         }
 
         // GET: ProductImages/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
             ProductImagesViewModel vm = new ProductImagesViewModel();
             ViewBag.images = new SelectList(_context.Products.ToList(), "Id", "Title");

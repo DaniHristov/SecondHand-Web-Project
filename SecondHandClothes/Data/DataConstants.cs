@@ -9,6 +9,9 @@
         public const int ProductDescriptionMaxLength = 250;
         public const int ProductDescriptionMinLength = 10;
         public const int ProductSizeMaxLength = 4;
+        public const int ProductMinPrice = 1;
+
+
 
     }
 }

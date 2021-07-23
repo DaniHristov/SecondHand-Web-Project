@@ -23,15 +23,14 @@
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
-        public string Model { get; set; }
-
         [Required]
         public string Colour { get; set; }
 
-        [Required]
-        public string PhoneNumber { get; set; }
-
         public string Manufacturer { get; set; }
+
+        [Required]
+        [Url]
+        public string ImageURL { get; set; }
 
         [Required]
         [MaxLength(ProductSizeMaxLength)]
@@ -47,7 +46,7 @@
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public ICollection<ProductImage> ProductImages { get; init; }
+        //public ICollection<ProductImage> ProductImages { get; init; }
 
         public ICollection<Comment> Comments { get; init; }
 

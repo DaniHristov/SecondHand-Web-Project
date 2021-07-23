@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SecondHandClothes.Data;
 using SecondHandClothes.Data.Models;
 using SecondHandClothes.Models.Products;
+using SecondHandClothes.Models.Products.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,69 @@ namespace SecondHandClothes.Controllers
             this.data = data;
         }
 
+        public IActionResult All([FromQuery]AllProductsQueryModel model)
+        {
+            var productsQuery = this.data.Products.AsQueryable();
+            //TODO: Some Validations
+
+            if (!string.IsNullOrWhiteSpace(model.Category))
+            {
+                productsQuery = productsQuery
+                    .Where(c => c.Category.CategoryName == model.Category);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Manufacturer))
+            {
+                productsQuery = productsQuery.Where(c =>
+                     c.Manufacturer == model.Manufacturer);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.SearchTerm))
+            {
+                productsQuery = productsQuery.Where(p =>
+                    (p.Title).ToLower().Contains(model.SearchTerm.ToLower()) ||
+                    p.Category.CategoryName.ToLower().Contains(model.SearchTerm.ToLower()) ||
+                    p.Description.ToLower().Contains(model.SearchTerm.ToLower()));
+            }
+
+            var productBrands = this.data.Products
+                .Select(p => p.Manufacturer)
+                .Distinct()
+                .ToList();
+
+            var productCategories = this.data.Products
+                .Select(p => p.Category.CategoryName)
+                .Distinct()
+                .ToList();
+
+            productsQuery = model.Sorting switch
+            {
+                ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
+                ProductSorting.PriceDescending => productsQuery.OrderByDescending(x => x.Price),
+                ProductSorting.CreatedOn or _ => productsQuery.OrderByDescending(x => x.Id)
+            };
+
+            var products = productsQuery
+                .Select(p => new ListingProductsViewModel
+                {
+                    Id = p.Id,
+                    Brand = p.Manufacturer,
+                    Condition = p.Condition.ConditionType,
+                    Price = p.Price,
+                    ImageUrl = p.ImageURL,
+                    Title = p.Title
+                })
+                .ToList();
+
+            model.Products = products;
+            model.Manufacturers = productBrands;
+            model.Categories = productCategories;
+            
+            return View(model);
+           
+        }
+
+        [Authorize]
         public IActionResult Add()
             => this.View(
                 new AddProductViewModel { 
@@ -26,6 +91,7 @@ namespace SecondHandClothes.Controllers
                     Conditions = this.GetProductsConditions(), 
                     Sexes = this.GetProductsSexes() });
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(AddProductViewModel product)
         {
@@ -69,16 +135,15 @@ namespace SecondHandClothes.Controllers
                 CategoryId = product.CategoryId,
                 SexId = product.SexId,
                 Manufacturer = product.Manufacturer,
-                Model = product.Model,
                 Price = product.Price,
-                PhoneNumber = product.PhoneNumber,
                 SizeId = product.SizeId,
+                ImageURL = product.ImageURL
             };
 
             this.data.Products.Add(productData);
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All", "Products");
         }
 
         private IEnumerable<ProductsCategoryViewModel> GetProductsCategories()

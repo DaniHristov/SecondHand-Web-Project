@@ -64,9 +64,10 @@
 
             data.Conditions.AddRange(new[]
             {
-                new Condition {ConditionType = "Като нов"},
-                new Condition {ConditionType = "Използван"},
-                new Condition {ConditionType = "Захабен"}
+                new Condition {ConditionType = "Лошо"},
+                new Condition {ConditionType = "Средно"},
+                new Condition {ConditionType = "Добро"},
+                new Condition {ConditionType = "Отлично"}
             });
 
             data.SaveChanges();
