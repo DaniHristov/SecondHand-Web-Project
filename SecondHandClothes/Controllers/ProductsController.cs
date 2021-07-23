@@ -62,7 +62,11 @@ namespace SecondHandClothes.Controllers
                 ProductSorting.CreatedOn or _ => productsQuery.OrderByDescending(x => x.Id)
             };
 
+            var productsCount = productsQuery.Count(); 
+
             var products = productsQuery
+                .Skip((model.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
+                .Take(AllProductsQueryModel.ProductsPerPage)
                 .Select(p => new ListingProductsViewModel
                 {
                     Id = p.Id,
@@ -74,6 +78,7 @@ namespace SecondHandClothes.Controllers
                 })
                 .ToList();
 
+            model.TotalProducts = productsCount;
             model.Products = products;
             model.Manufacturers = productBrands;
             model.Categories = productCategories;

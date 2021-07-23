@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SecondHandClothes.Data;
-using SecondHandClothes.Data.Models;
-using SecondHandClothes.Models.ProductImages;
-
-namespace SecondHandClothes.Controllers
+﻿namespace SecondHandClothes.Controllers
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using SecondHandClothes.Data;
+    using SecondHandClothes.Data.Models;
+    using SecondHandClothes.Models.ProductImages;
     public class ProductImagesController : Controller
     {
         private readonly SecondHandDbContext _context;
