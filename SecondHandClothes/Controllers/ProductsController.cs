@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SecondHandClothes.Data;
-using SecondHandClothes.Data.Models;
-using SecondHandClothes.Models.Products;
-using SecondHandClothes.Models.Products.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SecondHandClothes.Controllers
+﻿namespace SecondHandClothes.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using SecondHandClothes.Data;
+    using SecondHandClothes.Data.Models;
+    using SecondHandClothes.Infrastructure;
+    using SecondHandClothes.Models.Products;
+    using SecondHandClothes.Models.Products.Enums;
+
     public class ProductsController : Controller
     {
         private readonly SecondHandDbContext data;
@@ -89,17 +88,37 @@ namespace SecondHandClothes.Controllers
 
         [Authorize]
         public IActionResult Add()
-            => this.View(
-                new AddProductViewModel { 
-                    Categories = this.GetProductsCategories(), 
-                    Sizes = this.GetProductsSizes(),
-                    Conditions = this.GetProductsConditions(), 
-                    Sexes = this.GetProductsSexes() });
+        {
+            if (!this.UserIsSeller())
+            {
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
+            }
+
+            return this.View(
+            new AddProductViewModel
+            {
+                Categories = this.GetProductsCategories(),
+                Sizes = this.GetProductsSizes(),
+                Conditions = this.GetProductsConditions(),
+                Sexes = this.GetProductsSexes()
+            });
+        }
 
         [Authorize]
         [HttpPost]
         public IActionResult Add(AddProductViewModel product)
         {
+            var sellerId = this.data
+                .Sellers
+                .Where(s=>s.UserId == this.User.GetId())
+                .Select(s=>s.Id)
+                .FirstOrDefault();
+
+            if (sellerId == 0)
+            {
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
+            }
+
             if (!this.data.Categories.Any(c => c.Id == product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
@@ -142,7 +161,8 @@ namespace SecondHandClothes.Controllers
                 Manufacturer = product.Manufacturer,
                 Price = product.Price,
                 SizeId = product.SizeId,
-                ImageURL = product.ImageURL
+                ImageURL = product.ImageURL,
+                SellerId = sellerId
             };
 
             this.data.Products.Add(productData);
@@ -150,6 +170,11 @@ namespace SecondHandClothes.Controllers
 
             return RedirectToAction("All", "Products");
         }
+
+        private bool UserIsSeller()
+            =>  this.data
+                .Sellers
+                .Any(s => s.UserId == this.User.GetId());
 
         private IEnumerable<ProductsCategoryViewModel> GetProductsCategories()
             => this.data

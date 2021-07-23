@@ -12,7 +12,9 @@
         public const int ProductMinPrice = 1;
 
         public const int SellerNameMaxLength = 25;
+        public const int SellerNameMinLength = 3;
         public const int SellerPhoneNumberMaxLength = 15;
+        public const int SellerPhoneNumberMinLength = 5;
 
 
 

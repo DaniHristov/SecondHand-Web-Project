@@ -1,0 +1,24 @@
+﻿@model BecomeSellerFormModel
+
+@{
+    ViewData["Title"] = "Започни да продаваш";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" placeholder="Даниел,Виктор...">
+        <span asp-validation-for="FirstName" class="small text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" placeholder="Христов,Борисов...">
+        <span asp-validation-for="LastName" class="small text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" placeholder="+3598888888....">
+        <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+    </div>
+    <input class="btn btn-primary mt-4" type="submit" value="Запази" />
+</form>
