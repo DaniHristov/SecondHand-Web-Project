@@ -58,7 +58,7 @@
             {
                 ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
                 ProductSorting.PriceDescending => productsQuery.OrderByDescending(x => x.Price),
-                ProductSorting.CreatedOn or _ => productsQuery.OrderByDescending(x => x.Id)
+                ProductSorting.CreatedOn or _ => productsQuery.OrderByDescending(x => x.CreatedOn)
             };
 
             var productsCount = productsQuery.Count(); 

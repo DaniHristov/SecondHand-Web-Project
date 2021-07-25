@@ -1,15 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Начална страница";
 }
+
+<link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
 
 @if (!this.User.Identity.IsAuthenticated)
 {
     <div class="jumbotron">
-        <h1 class="display-4">Добре дошли в най добрия онлайн магазин за втора уптореба дрехи!</h1>
+        <h1 class="display-4">Добре дошли в най-добрия онлайн магазин за втора упoтреба дрехи!</h1>
         <p class="lead">Направете своята регистрация и започнете да купувате и продавате дрехи сега!</p>
         <hr class="my-4">
         <p class="lead">
             <a class="nav-link text-dark font-weight-bold btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
         </p>
+    </div>
+    <h2 class="text-center">Последно добавени продукти</h2>
+    <hr class="my-4 mb-5">
+
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <img class="card-img-top img-responsive" src="@product.ImageUrl" alt="@product.Category - @product.Brand">
+                    <div class="card-body text-center">
+                        @*<h5 class="card-title text-center">@product.Title</h5>
+                            <h5 class="card-title text-center">(@product.Condition)</h5>
+                            <h5 class="card-title text=center">@product.Price лв.</h5>*@
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Виж повече</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+@if(this.User.Identity.IsAuthenticated)
+{
+    <div class="jumbotron">
+        <h1 class="display-4 text-center">Добре дошли в SecondHand</h1>
+        <p class="lead">Тук при нас може да откриете най-добрите оферти за дрехи втора употреба ,а също така да продадете своите!</p>
+        <hr class="my-4">
+        <p>
+    </div>
+    <h2 class="text-center">-Последно добавени продукти-</h2>
+    <hr class="my-4 mb-5">
+    
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <img class="card-img-top img-responsive" src="@product.ImageUrl" alt="@product.Category - @product.Brand">
+                    <div class="card-body text-center">
+                        @*<h5 class="card-title text-center">@product.Title</h5>
+                            <h5 class="card-title text-center">(@product.Condition)</h5>
+                            <h5 class="card-title text=center">@product.Price лв.</h5>*@
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Виж повече</a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 }

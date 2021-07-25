@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SecondHandClothes.Data;
 using SecondHandClothes.Data.Models;
 using SecondHandClothes.Infrastructure;
+using SecondHandClothes.Models;
 using SecondHandClothes.Models.Sellers;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,6 @@ namespace SecondHandClothes.Controllers
         [Authorize]
         public IActionResult Become()
         {
-
             return View();
         }
 
@@ -33,11 +33,7 @@ namespace SecondHandClothes.Controllers
         {
             var userId = this.User.GetId();
 
-            var userIsAlreadySeller = this.data
-                .Sellers
-                .Any(x => x.UserId == userId);
-
-            if (userIsAlreadySeller)
+            if (IsUserAlreadySeller())
             {
                 return BadRequest();
             }
@@ -59,6 +55,15 @@ namespace SecondHandClothes.Controllers
             this.data.SaveChanges();
 
             return RedirectToAction("Add" ,"Products");
+        }
+
+        private bool IsUserAlreadySeller()
+        {
+            var userId = this.User.GetId();
+
+            return this.data
+                   .Sellers
+                   .Any(x => x.UserId == userId);
         }
     }
 }
