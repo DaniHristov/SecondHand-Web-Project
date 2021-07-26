@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using static Data.DataConstants;
+
     public class BecomeSellerFormModel
     { 
         [Required]

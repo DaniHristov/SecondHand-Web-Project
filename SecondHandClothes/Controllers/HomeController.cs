@@ -4,15 +4,19 @@
     using Microsoft.AspNetCore.Mvc;
     using SecondHandClothes.Data;
     using SecondHandClothes.Models.Home;
+    using SecondHandClothes.Services;
 
     public class HomeController : Controller
     {
         private readonly SecondHandDbContext data;
+        private readonly IStatisticsService statistics;
 
         public HomeController(
+            IStatisticsService statistics,
             SecondHandDbContext data)
         {
             this.data = data;
+            this.statistics = statistics;
         }
 
         public IActionResult Index()
@@ -30,16 +34,14 @@
                 .Take(3)
                 .ToList();
 
-            var totalUsers = this.data.Users.Count();
-            var totalSellers = this.data.Sellers.Count();
-            var totalProducts = this.data.Products.Count();
+            var statistics = this.statistics.Total();
 
             return View(new IndexViewModel
             {
                 Products = products,
-                TotalCustomers = totalUsers,
-                TotalSellers = totalSellers,
-                TotalProducts = totalProducts
+                TotalCustomers = statistics.TotalCustomers,
+                TotalSellers = statistics.TotalSellers,
+                TotalProducts = statistics.TotalProducts
             });
         }
 

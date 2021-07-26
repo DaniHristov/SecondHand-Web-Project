@@ -5,19 +5,50 @@
 }
 
 <link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
-
 @if (!this.User.Identity.IsAuthenticated)
 {
-    <div class="jumbotron">
+<body>
+    @*<div class="jumbotron">
         <h1 class="display-4">Добре дошли в най-добрия онлайн магазин за втора упoтреба дрехи!</h1>
         <p class="lead">Направете своята регистрация и започнете да купувате и продавате дрехи сега!</p>
         <hr class="my-4">
         <p class="lead">
             <a class="nav-link text-dark font-weight-bold btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
         </p>
+    </div>*@
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100 mh-100 img-responsive" style="opacity:0.7" src="https://i.pinimg.com/736x/4c/11/22/4c11221e4eb7376d246fe7dc3ab0ec66.jpg" alt="First slide">
+                <div class="carousel-caption d-none d-md-block align-text-top">
+                    <h4 class="text-white text-center">Добре дошли в най-добрия онлайн магазин за втора употреба</h4>
+                    <p class="lead">Направете своята регистрация и започнете да купувате и продавате дрехи сега!</p>
+                    <hr class="my-4">
+                    <p class="lead">
+                        <a class="nav-link text-dark font-weight-bold btn btn-outline-dark btn-primary" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+                    </p>
+                </div>
+        </div>
+        @*<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>*@
     </div>
-    <h2 class="text-center">Последно добавени продукти</h2>
-    <hr class="my-4 mb-5">
+    </div>
+    <div>        
+        <hr class="mt-4">
+    </div>
+    <div class="mt-5">
+        <h2 class="text-center bg-white">-Последно добавени продукти-</h2>
+        <hr class="my-4 mb-5">
+    </div>
 
     <div class="row">
         @foreach (var product in Model.Products)
@@ -35,18 +66,37 @@
             </div>
         }
     </div>
+</body>
 }
 @if(this.User.Identity.IsAuthenticated)
 {
-    <div class="jumbotron">
-        <h1 class="display-4 text-center">Добре дошли в SecondHand</h1>
-        <p class="lead">Тук при нас може да откриете най-добрите оферти за дрехи втора употреба ,а също така да продадете своите!</p>
-        <hr class="my-4">
-        <p>
+<body>
+    <div>
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100 mh-100 img-responsive" style="opacity:0.7" src="https://i.pinimg.com/736x/4c/11/22/4c11221e4eb7376d246fe7dc3ab0ec66.jpg" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block align-text-top">
+                        <h4 class="display-4 text-white text-center font-italic">Добре дошли в най-добрия онлайн магазин за втора употреба!</h4>
+                    </div>
+                </div>
+                @*<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>*@
+            </div>
+        </div>
+        <h2 class="text-center mt-5">-Последно добавени продукти-</h2>
+        <hr class="my-4 mb-5">
     </div>
-    <h2 class="text-center">-Последно добавени продукти-</h2>
-    <hr class="my-4 mb-5">
-    
+
     <div class="row">
         @foreach (var product in Model.Products)
         {
@@ -63,4 +113,5 @@
             </div>
         }
     </div>
+</body>
 }

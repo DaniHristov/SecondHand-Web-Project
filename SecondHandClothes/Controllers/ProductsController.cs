@@ -7,78 +7,36 @@
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
+    using SecondHandClothes.Models;
     using SecondHandClothes.Models.Products;
-    using SecondHandClothes.Models.Products.Enums;
+    using SecondHandClothes.Services.Products;
 
     public class ProductsController : Controller
     {
         private readonly SecondHandDbContext data;
+        private readonly IProductService products;
 
-        public ProductsController(SecondHandDbContext data)
+        public ProductsController(SecondHandDbContext data, IProductService products)
         {
             this.data = data;
+            this.products = products;
         }
 
         public IActionResult All([FromQuery]AllProductsQueryModel model)
         {
-            var productsQuery = this.data.Products.AsQueryable();
-            //TODO: Some Validations
+            var products = this.products.All(
+                model.Category,
+                model.Manufacturer,
+                model.SearchTerm,
+                model.Sorting,
+                model.CurrentPage,
+                AllProductsQueryModel.ProductsPerPage);
 
-            if (!string.IsNullOrWhiteSpace(model.Category))
-            {
-                productsQuery = productsQuery
-                    .Where(c => c.Category.CategoryName == model.Category);
-            }
+            var productBrands = this.products.AllProductBrands();
+            var productCategories = this.products.AllProductCategories();
 
-            if (!string.IsNullOrWhiteSpace(model.Manufacturer))
-            {
-                productsQuery = productsQuery.Where(c =>
-                     c.Manufacturer == model.Manufacturer);
-            }
-
-            if (!string.IsNullOrWhiteSpace(model.SearchTerm))
-            {
-                productsQuery = productsQuery.Where(p =>
-                    (p.Title).ToLower().Contains(model.SearchTerm.ToLower()) ||
-                    p.Category.CategoryName.ToLower().Contains(model.SearchTerm.ToLower()) ||
-                    p.Description.ToLower().Contains(model.SearchTerm.ToLower()));
-            }
-
-            var productBrands = this.data.Products
-                .Select(p => p.Manufacturer)
-                .Distinct()
-                .ToList();
-
-            var productCategories = this.data.Products
-                .Select(p => p.Category.CategoryName)
-                .Distinct()
-                .ToList();
-
-            productsQuery = model.Sorting switch
-            {
-                ProductSorting.PriceAscending => productsQuery.OrderBy(x => x.Price),
-                ProductSorting.PriceDescending => productsQuery.OrderByDescending(x => x.Price),
-                ProductSorting.CreatedOn or _ => productsQuery.OrderByDescending(x => x.CreatedOn)
-            };
-
-            var productsCount = productsQuery.Count(); 
-
-            var products = productsQuery
-                .Skip((model.CurrentPage - 1) * AllProductsQueryModel.ProductsPerPage)
-                .Take(AllProductsQueryModel.ProductsPerPage)
-                .Select(p => new ListingProductsViewModel
-                {
-                    Id = p.Id,
-                    Brand = p.Manufacturer,
-                    Condition = p.Condition.ConditionType,
-                    Price = p.Price,
-                    ImageUrl = p.ImageURL,
-                    Title = p.Title
-                })
-                .ToList();
-
-            model.TotalProducts = productsCount;
-            model.Products = products;
+            model.TotalProducts = products.TotalProducts;
+            model.Products = products.Products;
             model.Manufacturers = productBrands;
             model.Categories = productCategories;
             

@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Всички продукти";
 }
-@*Да довърша сортировка филтри и пейджиране , да добавя категории*@
+
 <link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
 
 <form method="get">
@@ -91,6 +91,14 @@
     </div>
 </div>
 
+@if (Model.Products.Count() == 0)
+{
+    <div>
+        <hr />
+        <h1 class="text-center">Няма намерени продукти с тези показатели!</h1>
+        <hr />
+    </div>
+}
 
 <div class="row">
     @foreach (var product in Model.Products)

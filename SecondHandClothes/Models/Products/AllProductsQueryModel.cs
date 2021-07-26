@@ -1,8 +1,9 @@
 ﻿namespace SecondHandClothes.Models.Products
 {
-    using SecondHandClothes.Models.Products.Enums;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using SecondHandClothes.Services.Products;
+
     public class AllProductsQueryModel
     {
         public const int ProductsPerPage = 3;
@@ -10,12 +11,10 @@
         [Display(Name = "Категория")]
         public string Category { get; init; }
 
-        public IEnumerable<string> Categories { get; set; }
 
         [Display(Name = "Бранд")]   
         public string Manufacturer { get; init; }
 
-        public IEnumerable<string> Manufacturers { get; set; }
 
         [Display(Name = "Търси по заглавие")]
         public string SearchTerm { get; init; }
@@ -27,6 +26,10 @@
 
         public int CurrentPage { get; init; } = 1;
 
-        public IEnumerable<ListingProductsViewModel> Products { get; set; }
+        public IEnumerable<string> Manufacturers { get; set; }
+
+        public IEnumerable<ProductServiceModel> Products { get; set; }
+
+        public IEnumerable<string> Categories { get; set; }
     }
 }

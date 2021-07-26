@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SecondHandClothes.Data;
 using SecondHandClothes.Infrastructure;
+using SecondHandClothes.Services;
+using SecondHandClothes.Services.Products;
+using SecondHandClothes.Services.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +49,9 @@ namespace SecondHandClothes
 
             services
                 .AddControllersWithViews();
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IProductService, ProductService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
