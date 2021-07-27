@@ -45,6 +45,14 @@
         }
 
         [Authorize]
+        public IActionResult MyProducts()
+        {
+            var myProducts = this.products.ProductsByUser(this.User.GetId());
+
+            return View(myProducts);
+        }
+
+        [Authorize]
         public IActionResult Add()
         {
             if (!this.UserIsSeller())

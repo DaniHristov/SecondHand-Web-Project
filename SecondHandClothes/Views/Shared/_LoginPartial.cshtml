@@ -1,13 +1,32 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using SecondHandClothes.Services.Sellers
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject ISellerService Sellers
 
 <ul class="navbar-nav">
+
+
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Sellers" asp-action="Become">Започни да продаваш</a>
-        </li>
+
+        var userId = User.GetId();
+        var userIsSeller = Sellers.IsSeller(userId);
+
+        @if (userIsSeller)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="MyProducts">Моите продукти</a>
+            </li>
+        }
+
+        @if (!userIsSeller)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Sellers" asp-action="Become">Започни да продаваш</a>
+            </li>
+        }
+
         <li class="nav-item">
             <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Профил</a>
         </li>

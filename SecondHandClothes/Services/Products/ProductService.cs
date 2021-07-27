@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using SecondHandClothes.Data;
+    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models;
 
     public class ProductService : IProductService
@@ -91,5 +92,23 @@
                     .Distinct()
                     .OrderBy(x=>x)
                     .ToList();
+
+        public IEnumerable<ProductServiceModel> ProductsByUser(string userId)
+                => GetProducts(this.data
+                    .Products
+                    .Where(s => s.Seller.UserId == userId));
+
+        private static IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productQuery)
+           => productQuery
+               .Select(p => new ProductServiceModel
+               {
+                   Id = p.Id,
+                   Brand = p.Manufacturer,
+                   Condition = p.Condition.ConditionType,
+                   Price = p.Price,
+                   ImageUrl = p.ImageURL,
+                   Title = p.Title
+               })
+               .ToList();
     }
 }

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ProductServiceModel>
+
+@{
+    ViewData["Title"] = "Моите продукти";
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
+
+@if (!Model.Any())
+{
+    <div>
+        <hr />
+        <h1 class="text-center">Все още нямате добавени продукти!</h1>
+        <hr />
+    </div>
+}
+
+<partial name="_ProductsPartial" model="@Model"/>

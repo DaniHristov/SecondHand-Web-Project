@@ -13,6 +13,8 @@
             int currentPage,
             int productsPerPage);
 
+        IEnumerable<ProductServiceModel> ProductsByUser(string userId);
+
         IEnumerable<string> AllProductBrands();
 
         IEnumerable<string> AllProductCategories();

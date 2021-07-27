@@ -1,24 +1,19 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using SecondHandClothes.Data;
-using SecondHandClothes.Infrastructure;
-using SecondHandClothes.Services;
-using SecondHandClothes.Services.Products;
-using SecondHandClothes.Services.Statistics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace SecondHandClothes
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using SecondHandClothes.Data;
+    using SecondHandClothes.Infrastructure;
+    using SecondHandClothes.Services;
+    using SecondHandClothes.Services.Products;
+    using SecondHandClothes.Services.Sellers;
+    using SecondHandClothes.Services.Statistics;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -52,6 +47,7 @@ namespace SecondHandClothes
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ISellerService, SellerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
