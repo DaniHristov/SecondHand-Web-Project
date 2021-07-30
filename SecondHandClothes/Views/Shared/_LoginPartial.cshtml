@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using SecondHandClothes.Data.Models
 @using SecondHandClothes.Services.Sellers
+@using SecondHandClothes.Areas.Admin
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -14,15 +15,15 @@
 
         var userId = User.Id();
         var userIsSeller = Sellers.IsSeller(userId);
-
-        @if (userIsSeller)
+        var userIsAdmin = User.IsAdmin();
+        @if (userIsSeller && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="MyProducts">Моите продукти</a>
             </li>
         }
 
-        @if (!userIsSeller)
+        else if (!userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Sellers" asp-action="Become">Започни да продаваш</a>

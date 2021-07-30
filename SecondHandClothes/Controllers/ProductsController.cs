@@ -6,7 +6,7 @@
     using SecondHandClothes.Models.Products;
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
-
+    using static SecondHandClothes.Areas.Admin.AdminConstants;
     public class ProductsController : Controller
     {
         private readonly IProductService products;
@@ -129,14 +129,14 @@
         {
             var userId = this.User.Id();
 
-            if (!sellers.IsSeller(this.User.Id()))
+            if (!sellers.IsSeller(this.User.Id()) && !this.User.IsAdmin())
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
 
             var product = this.products.Details(id);
 
-            if (product.UserId != userId)
+            if (product.UserId != userId && !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -167,7 +167,7 @@
         {
             var sellerId = sellers.SellerId(this.User.Id());
 
-            if (sellerId == 0)
+            if (sellerId == 0 && !this.User.IsAdmin())
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
@@ -203,7 +203,7 @@
                 return View(product);
             }
 
-            if (!this.products.IsBySeller(id,sellerId))
+            if (!this.products.IsBySeller(id,sellerId) && !this.User.IsAdmin())
             {
                 return BadRequest();
             }
@@ -221,6 +221,10 @@
                 product.SizeId,
                 product.ImageURL);
 
+            if (User.IsAdmin())
+            {
+                return RedirectToAction(nameof(All));
+            }
             return RedirectToAction(nameof(MyProducts));
         }
     }
