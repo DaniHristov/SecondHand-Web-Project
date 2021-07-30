@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SecondHandClothes.Data;
-using SecondHandClothes.Data.Models;
-using SecondHandClothes.Infrastructure;
-using SecondHandClothes.Models;
-using SecondHandClothes.Models.Sellers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SecondHandClothes.Controllers
+﻿namespace SecondHandClothes.Controllers
 {
+    using System.Linq;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using SecondHandClothes.Data;
+    using SecondHandClothes.Data.Models;
+    using SecondHandClothes.Infrastructure;
+    using SecondHandClothes.Models.Sellers;
+
     public class SellersController : Controller
     {
         private readonly SecondHandDbContext data;

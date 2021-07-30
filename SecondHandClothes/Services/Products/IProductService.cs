@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using SecondHandClothes.Models;
+    using SecondHandClothes.Services.Products.Models;
 
     public interface IProductService
     {
@@ -13,10 +14,40 @@
             int currentPage,
             int productsPerPage);
 
+        string Create(string title,
+                string description,
+                string colour,
+                int conditionId,
+                int categoryId,
+                int sexId,
+                string manufacturer,
+                decimal price,
+                int sizeId,
+                string imageURL,
+                int sellerId);
+
+        ProductDetailsServiceModel Details(string id);
+
         IEnumerable<ProductServiceModel> ProductsByUser(string userId);
 
-        IEnumerable<string> AllProductBrands();
+        IEnumerable<string> AllBrands();
 
-        IEnumerable<string> AllProductCategories();
+        IEnumerable<string> AllCategories();
+
+        IEnumerable<ProductsCategoryServiceModel> GetCategories();
+
+        IEnumerable<ProductsSexServiceModel> GetSexes();
+
+        IEnumerable<ProductsConditionServiceModel> GetConditions();
+
+        IEnumerable<ProductsSizeServiceModel> GetSizes();
+
+        public bool CategoryExists(int categoryId);
+
+        public bool SizeExists(int sizeId);
+
+        public bool SexExists(int sexId);
+
+        public bool ConditionExists(int conditionId);
     }
 }

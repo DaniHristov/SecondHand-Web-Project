@@ -8,5 +8,9 @@ namespace SecondHandClothes.Services.Sellers
     public interface ISellerService
     {
         public bool IsSeller(string userId);
+
+
+
+        public int GetSellerId(string userId);
     }
 }

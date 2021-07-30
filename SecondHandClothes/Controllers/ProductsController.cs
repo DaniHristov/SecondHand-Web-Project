@@ -1,25 +1,26 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
-    using SecondHandClothes.Models;
     using SecondHandClothes.Models.Products;
     using SecondHandClothes.Services.Products;
+    using SecondHandClothes.Services.Sellers;
 
     public class ProductsController : Controller
     {
         private readonly SecondHandDbContext data;
         private readonly IProductService products;
+        private readonly ISellerService sellers;
 
-        public ProductsController(SecondHandDbContext data, IProductService products)
+        public ProductsController(IProductService products, ISellerService sellers, SecondHandDbContext data)
         {
             this.data = data;
             this.products = products;
+            this.sellers = sellers;
         }
 
         public IActionResult All([FromQuery]AllProductsQueryModel model)
@@ -32,8 +33,8 @@
                 model.CurrentPage,
                 AllProductsQueryModel.ProductsPerPage);
 
-            var productBrands = this.products.AllProductBrands();
-            var productCategories = this.products.AllProductCategories();
+            var productBrands = this.products.AllBrands();
+            var productCategories = this.products.AllCategories();
 
             model.TotalProducts = products.TotalProducts;
             model.Products = products.Products;
@@ -55,7 +56,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsSeller())
+            if (!sellers.IsSeller(this.User.GetId()))
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
@@ -63,10 +64,10 @@
             return this.View(
             new AddProductViewModel
             {
-                Categories = this.GetProductsCategories(),
-                Sizes = this.GetProductsSizes(),
-                Conditions = this.GetProductsConditions(),
-                Sexes = this.GetProductsSexes()
+                Categories = this.products.GetCategories(),
+                Sizes = this.products.GetSizes(),
+                Conditions = this.products.GetConditions(),
+                Sexes = this.products.GetSexes()
             });
         }
 
@@ -74,33 +75,29 @@
         [HttpPost]
         public IActionResult Add(AddProductViewModel product)
         {
-            var sellerId = this.data
-                .Sellers
-                .Where(s=>s.UserId == this.User.GetId())
-                .Select(s=>s.Id)
-                .FirstOrDefault();
+            var sellerId = sellers.GetSellerId(this.User.GetId());
 
             if (sellerId == 0)
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
 
-            if (!this.data.Categories.Any(c => c.Id == product.CategoryId))
+            if (products.CategoryExists(product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
             }
 
-            if (!this.data.Sexes.Any(c => c.Id == product.SexId))
+            if (products.SexExists(product.SexId))
             {
                 this.ModelState.AddModelError(nameof(product.SexId), "Sex does not exist.");
             }
 
-            if (!this.data.Conditions.Any(c => c.Id == product.ConditionId))
+            if (products.ConditionExists(product.ConditionId))
             {
                 this.ModelState.AddModelError(nameof(product.ConditionId), "Condition does not exist.");
             }
 
-            if (!this.data.Sizes.Any(c => c.Id == product.SizeId))
+            if (products.SizeExists(product.SizeId))
             {
                 this.ModelState.AddModelError(nameof(product.SizeId), "Size does not exist.");
             }
@@ -108,10 +105,10 @@
 
             if (!ModelState.IsValid)
             {
-                product.Categories = this.GetProductsCategories();
-                product.Sexes = this.GetProductsSexes();
-                product.Conditions = this.GetProductsConditions();
-                product.Sizes = this.GetProductsSizes();
+                product.Categories = this.products.GetCategories();
+                product.Sexes = this.products.GetSexes();
+                product.Conditions = this.products.GetConditions();
+                product.Sizes = this.products.GetSizes();
 
                 return View(product);
             }
@@ -134,52 +131,26 @@
             this.data.Products.Add(productData);
             this.data.SaveChanges();
 
+            this.products.Create(
+                product.Title,
+                product.Description,
+                product.Colour,
+                product.ConditionId,
+                product.CategoryId,
+                product.SexId,
+                product.Manufacturer,
+                product.Price,
+                product.SizeId,
+                product.ImageURL,
+                sellerId);
+
             return RedirectToAction("All", "Products");
         }
 
-        private bool UserIsSeller()
-            =>  this.data
-                .Sellers
-                .Any(s => s.UserId == this.User.GetId());
-
-        private IEnumerable<ProductsCategoryViewModel> GetProductsCategories()
-            => this.data
-                .Categories
-                .Select(c => new ProductsCategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.CategoryName
-                })
-                .ToList();
-
-        private IEnumerable<ProductsSexViewModel> GetProductsSexes()
-             => this.data
-                .Sexes
-                .Select(c => new ProductsSexViewModel
-                {
-                    Id = c.Id,
-                    Name = c.SexType
-                })
-                .ToList();
-
-        private IEnumerable<ProductsConditionViewModel> GetProductsConditions()
-             => this.data
-                .Conditions
-                .Select(c => new ProductsConditionViewModel
-                {
-                    Id = c.Id,
-                    Name = c.ConditionType
-                })
-                .ToList();
-
-        private IEnumerable<ProductsSizeViewModel> GetProductsSizes()
-             => this.data
-                .Sizes
-                .Select(c => new ProductsSizeViewModel
-                {
-                    Id = c.Id,
-                    Name = c.SizeType
-                })
-                .ToList();
+        //[Authorize]
+        //public IActionResult Edit(string id)
+        //{
+            
+        //}
     }
 }

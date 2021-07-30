@@ -5,6 +5,7 @@
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models;
+    using SecondHandClothes.Services.Products.Models;
 
     public class ProductService : IProductService
     {
@@ -79,14 +80,72 @@
             };
         }
 
-        public IEnumerable<string> AllProductBrands()
+        public string Create(
+            string title, 
+            string description, 
+            string colour, 
+            int conditionId, 
+            int categoryId, 
+            int sexId, 
+            string manufacturer, 
+            decimal price, 
+            int sizeId, 
+            string imageURL, 
+            int sellerId)
+        {
+
+            var productData = new Product
+            {
+                Title = title,
+                Description = description,  
+                Colour = colour,
+                ConditionId = conditionId,
+                CategoryId = categoryId,
+                SexId = sexId,
+                Manufacturer = manufacturer,
+                Price = price,
+                SizeId = sizeId,
+                ImageURL = imageURL,
+                SellerId = sellerId
+            };
+
+            this.data.Products.Add(productData);
+            this.data.SaveChanges();
+
+            return productData.Id;
+        }
+
+        public ProductDetailsServiceModel Details(string id)
+            => this.data
+            .Products
+            .Where(p => p.Id == id)
+            .Select(p => new ProductDetailsServiceModel
+            {
+                Id = p.Id,
+                Brand = p.Manufacturer,
+                Description = p.Description,
+                Category = p.Category.CategoryName,
+                Colour = p.Colour,
+                Condition = p.Condition.ConditionType,
+                ImageUrl = p.ImageURL,
+                Price = p.Price,
+                Title = p.Title,
+                SellerId = p.SellerId,
+                SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
+                UserId = p.Seller.UserId,
+                CreatedOn = p.CreatedOn.ToString("F")
+            })
+            .FirstOrDefault();
+
+
+        public IEnumerable<string> AllBrands()
             => this.data.Products
                 .Select(p => p.Manufacturer)
                 .Distinct()
                 .OrderBy(p=>p)
                 .ToList();
 
-        public IEnumerable<string> AllProductCategories()
+        public IEnumerable<string> AllCategories()
             =>this.data.Products
                     .Select(p => p.Category.CategoryName)
                     .Distinct()
@@ -110,5 +169,59 @@
                    Title = p.Title
                })
                .ToList();
+
+        public IEnumerable<ProductsCategoryServiceModel> GetCategories()
+            => this.data
+                .Categories
+                .Select(c => new ProductsCategoryServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.CategoryName
+                })
+                .ToList();
+
+        public IEnumerable<ProductsSexServiceModel> GetSexes()
+             => this.data
+                .Sexes
+                .Select(c => new ProductsSexServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.SexType
+                })
+                .ToList();
+
+        public IEnumerable<ProductsConditionServiceModel> GetConditions()
+             => this.data
+                .Conditions
+                .Select(c => new ProductsConditionServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.ConditionType
+                })
+                .ToList();
+
+        public IEnumerable<ProductsSizeServiceModel> GetSizes()
+             => this.data
+                .Sizes
+                .Select(c => new ProductsSizeServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.SizeType
+                })
+                .ToList();
+
+        public bool SexExists(int sexId)
+            => !this.data.Sexes.Any(s => s.Id == sexId);
+
+
+        public bool SizeExists(int sizeId)
+            => !this.data.Sizes.Any(s => s.Id == sizeId);
+
+
+        public bool CategoryExists(int categoryId)
+            => !this.data.Categories.Any(c => c.Id == categoryId);
+
+        public bool ConditionExists(int conditionId)
+             => !this.data.Conditions.Any(c => c.Id == conditionId);
     }
 }

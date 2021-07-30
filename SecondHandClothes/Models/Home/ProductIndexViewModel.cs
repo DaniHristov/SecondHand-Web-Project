@@ -1,7 +1,7 @@
 ﻿namespace SecondHandClothes.Models.Home
 {
     using System;
-
+    
     public class ProductIndexViewModel
     {
         public string Id { get; init; } = Guid.NewGuid().ToString();

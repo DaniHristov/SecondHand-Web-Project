@@ -9,8 +9,13 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">@product.Title</h5>
                     <h5 class="card-title text-center">(@product.Condition)</h5>
-                    <h5 class="card-title text=center">@product.Price лв.</h5>  
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Виж повече</a>
+                    <h5 class="card-title text=center">@product.Price лв.</h5>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Виж</a>
+                    @if (ViewBag.IsEditAllowed == true)
+                    {
+                        <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning ml-2 mr-2">Редактирай</a>
+                        <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Изтрий</a>
+                    }
                 </div>
             </div>
         </div>

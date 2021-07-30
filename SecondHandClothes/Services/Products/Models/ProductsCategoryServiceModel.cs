@@ -1,6 +1,6 @@
-﻿namespace SecondHandClothes.Models.Products
+﻿namespace SecondHandClothes.Services.Products
 {
-    public class ProductsCategoryViewModel
+    public class ProductsCategoryServiceModel
     {
         public int Id { get; init; }
 

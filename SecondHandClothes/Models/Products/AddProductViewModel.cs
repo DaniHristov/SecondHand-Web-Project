@@ -1,14 +1,13 @@
 ﻿namespace SecondHandClothes.Models.Products
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models.ProductImages;
-
+    using SecondHandClothes.Services.Products;
     using static Data.DataConstants;
     public class AddProductViewModel
     {
+        //TODO : Опиши грешките
         [Required(ErrorMessage = "Полето 'Заглавие' е задължително.")]
         [StringLength(ProdcutTitleMaxLength,MinimumLength = ProductTitleMinLength,
             ErrorMessage = "Заглавието трябва да бъде между {2} и {1} символа дълго!")]
@@ -53,16 +52,15 @@
 
         public ICollection<ProductImagesViewModel> ProductImages { get; set; }
 
-        public IEnumerable<ProductsCategoryViewModel> Categories { get; set; }
+        public IEnumerable<ProductsCategoryServiceModel> Categories { get; set; }
 
-        public IEnumerable<ProductsConditionViewModel> Conditions { get; set; }
+        public IEnumerable<ProductsConditionServiceModel> Conditions { get; set; }
 
-        public IEnumerable<ProductsSexViewModel> Sexes { get; set; }
+        public IEnumerable<ProductsSexServiceModel> Sexes { get; set; }
 
-        public IEnumerable<ProductsSizeViewModel> Sizes { get; set; }
+        public IEnumerable<ProductsSizeServiceModel> Sizes { get; set; }
 
 
 
     }
 }
-//TODO : Опиши грешките
