@@ -27,7 +27,7 @@
         [Authorize]
         public IActionResult Become(BecomeSellerFormModel seller)
         {
-            var userId = this.User.GetId();
+            var userId = this.User.Id();
 
             if (IsUserAlreadySeller())
             {
@@ -55,7 +55,7 @@
 
         private bool IsUserAlreadySeller()
         {
-            var userId = this.User.GetId();
+            var userId = this.User.Id();
 
             return this.data
                    .Sellers

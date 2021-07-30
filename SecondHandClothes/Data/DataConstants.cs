@@ -2,6 +2,11 @@
 {
     public class DataConstants
     {
+        public const int NameMaxLength = 20;
+        public const int NameMinLength = 2;
+        public const int PasswordMaxLength = 100;
+        public const int PasswordMinLength = 6;
+
         public const int CommentMaxLength = 400;
 
         public const int ProdcutTitleMaxLength = 30;

@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using SecondHandClothes.Data.Models
 @using SecondHandClothes.Services.Sellers
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject ISellerService Sellers
 
 <ul class="navbar-nav">
@@ -10,7 +12,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
 
-        var userId = User.GetId();
+        var userId = User.Id();
         var userIsSeller = Sellers.IsSeller(userId);
 
         @if (userIsSeller)

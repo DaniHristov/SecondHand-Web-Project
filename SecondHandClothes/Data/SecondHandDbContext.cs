@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using SecondHandClothes.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SecondHandClothes.Data
+﻿namespace SecondHandClothes.Data
 {
-    public class SecondHandDbContext : IdentityDbContext
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using SecondHandClothes.Data.Models;
+
+    public class SecondHandDbContext : IdentityDbContext<User>
     {
         public SecondHandDbContext(DbContextOptions<SecondHandDbContext> options)
             : base(options)
@@ -70,7 +66,7 @@ namespace SecondHandClothes.Data
 
             builder
                 .Entity<Seller>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

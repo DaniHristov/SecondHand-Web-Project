@@ -8,6 +8,7 @@ namespace SecondHandClothes
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using SecondHandClothes.Data;
+    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Services;
     using SecondHandClothes.Services.Products;
@@ -33,13 +34,14 @@ namespace SecondHandClothes
                 .AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SecondHandDbContext>();
 
             services

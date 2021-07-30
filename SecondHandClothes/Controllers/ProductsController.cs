@@ -43,7 +43,7 @@
         [Authorize]
         public IActionResult MyProducts()
         {
-            var myProducts = this.products.ProductsByUser(this.User.GetId());
+            var myProducts = this.products.ProductsByUser(this.User.Id());
 
             return View(myProducts);
         }
@@ -51,7 +51,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!sellers.IsSeller(this.User.GetId()))
+            if (!sellers.IsSeller(this.User.Id()))
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
@@ -70,7 +70,7 @@
         [HttpPost]
         public IActionResult Add(ProductFormModel product)
         {
-            var sellerId = sellers.SellerId(this.User.GetId());
+            var sellerId = sellers.SellerId(this.User.Id());
 
             if (sellerId == 0)
             {
@@ -127,9 +127,9 @@
         [Authorize]
         public IActionResult Edit(string id)
         {
-            var userId = this.User.GetId();
+            var userId = this.User.Id();
 
-            if (!sellers.IsSeller(this.User.GetId()))
+            if (!sellers.IsSeller(this.User.Id()))
             {
                 return RedirectToAction(nameof(SellersController.Become), "Sellers");
             }
@@ -165,7 +165,7 @@
         [HttpPost]
         public IActionResult Edit(string id, ProductFormModel product)
         {
-            var sellerId = sellers.SellerId(this.User.GetId());
+            var sellerId = sellers.SellerId(this.User.Id());
 
             if (sellerId == 0)
             {
