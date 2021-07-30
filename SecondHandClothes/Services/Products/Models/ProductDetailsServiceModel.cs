@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SecondHandClothes.Services.Products.Models
+﻿namespace SecondHandClothes.Services.Products.Models
 {
     public class ProductDetailsServiceModel : ProductServiceModel
     {
@@ -18,6 +13,18 @@ namespace SecondHandClothes.Services.Products.Models
         public string Category { get; init; }
 
         public string Colour { get; init; }
+
+        public int CategoryId { get; init; }
+
+        public string Size { get; init; }
+
+        public int SizeId { get; init; }
+
+        public int ConditionId { get; init; }
+
+        public string Sex { get; init; }
+
+        public int SexId { get; init; }
 
         public string CreatedOn { get; init; }
     }

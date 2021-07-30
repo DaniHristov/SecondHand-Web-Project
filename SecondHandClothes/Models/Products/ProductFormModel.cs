@@ -5,7 +5,7 @@
     using SecondHandClothes.Models.ProductImages;
     using SecondHandClothes.Services.Products;
     using static Data.DataConstants;
-    public class AddProductViewModel
+    public class ProductFormModel
     {
         //TODO : Опиши грешките
         [Required(ErrorMessage = "Полето 'Заглавие' е задължително.")]

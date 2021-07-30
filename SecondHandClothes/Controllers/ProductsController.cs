@@ -1,10 +1,7 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using SecondHandClothes.Data;
-    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Products;
     using SecondHandClothes.Services.Products;
@@ -12,13 +9,11 @@
 
     public class ProductsController : Controller
     {
-        private readonly SecondHandDbContext data;
         private readonly IProductService products;
         private readonly ISellerService sellers;
 
-        public ProductsController(IProductService products, ISellerService sellers, SecondHandDbContext data)
+        public ProductsController(IProductService products, ISellerService sellers)
         {
-            this.data = data;
             this.products = products;
             this.sellers = sellers;
         }
@@ -62,7 +57,7 @@
             }
 
             return this.View(
-            new AddProductViewModel
+            new ProductFormModel
             {
                 Categories = this.products.GetCategories(),
                 Sizes = this.products.GetSizes(),
@@ -73,9 +68,9 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult Add(AddProductViewModel product)
+        public IActionResult Add(ProductFormModel product)
         {
-            var sellerId = sellers.GetSellerId(this.User.GetId());
+            var sellerId = sellers.SellerId(this.User.GetId());
 
             if (sellerId == 0)
             {
@@ -113,24 +108,6 @@
                 return View(product);
             }
 
-            var productData = new Product
-            {
-                Title = product.Title,
-                Description = product.Description,
-                Colour = product.Colour,
-                ConditionId = product.ConditionId,
-                CategoryId = product.CategoryId,
-                SexId = product.SexId,
-                Manufacturer = product.Manufacturer,
-                Price = product.Price,
-                SizeId = product.SizeId,
-                ImageURL = product.ImageURL,
-                SellerId = sellerId
-            };
-
-            this.data.Products.Add(productData);
-            this.data.SaveChanges();
-
             this.products.Create(
                 product.Title,
                 product.Description,
@@ -147,10 +124,104 @@
             return RedirectToAction("All", "Products");
         }
 
-        //[Authorize]
-        //public IActionResult Edit(string id)
-        //{
-            
-        //}
+        [Authorize]
+        public IActionResult Edit(string id)
+        {
+            var userId = this.User.GetId();
+
+            if (!sellers.IsSeller(this.User.GetId()))
+            {
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
+            }
+
+            var product = this.products.Details(id);
+
+            if (product.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+            return this.View(
+            new ProductFormModel
+            {
+                Categories = this.products.GetCategories(),
+                Sizes = this.products.GetSizes(),
+                Conditions = this.products.GetConditions(),
+                Sexes = this.products.GetSexes(),
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                Colour = product.Colour,
+                ConditionId = product.ConditionId,
+                ImageURL = product.ImageUrl,
+                Manufacturer = product.Brand,
+                Price = product.Price,
+                SexId = product.SexId,
+                SizeId = product.SizeId,
+                Title = product.Title
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(string id, ProductFormModel product)
+        {
+            var sellerId = sellers.SellerId(this.User.GetId());
+
+            if (sellerId == 0)
+            {
+                return RedirectToAction(nameof(SellersController.Become), "Sellers");
+            }
+
+            if (products.CategoryExists(product.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
+            }
+
+            if (products.SexExists(product.SexId))
+            {
+                this.ModelState.AddModelError(nameof(product.SexId), "Sex does not exist.");
+            }
+
+            if (products.ConditionExists(product.ConditionId))
+            {
+                this.ModelState.AddModelError(nameof(product.ConditionId), "Condition does not exist.");
+            }
+
+            if (products.SizeExists(product.SizeId))
+            {
+                this.ModelState.AddModelError(nameof(product.SizeId), "Size does not exist.");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                product.Categories = this.products.GetCategories();
+                product.Sexes = this.products.GetSexes();
+                product.Conditions = this.products.GetConditions();
+                product.Sizes = this.products.GetSizes();
+
+                return View(product);
+            }
+
+            if (!this.products.IsBySeller(id,sellerId))
+            {
+                return BadRequest();
+            }
+
+            this.products.Edit(
+                id,
+                product.Title,
+                product.Description,
+                product.Colour,
+                product.ConditionId,
+                product.CategoryId,
+                product.SexId,
+                product.Manufacturer,
+                product.Price,
+                product.SizeId,
+                product.ImageURL);
+
+            return RedirectToAction(nameof(MyProducts));
+        }
     }
 }

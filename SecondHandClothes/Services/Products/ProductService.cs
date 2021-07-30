@@ -115,6 +115,43 @@
             return productData.Id;
         }
 
+        public bool Edit(
+            string id,
+            string title,
+            string description,
+            string colour,  
+            int conditionId,
+            int categoryId,
+            int sexId,
+            string manufacturer,
+            decimal price,
+            int sizeId,
+            string imageURL)
+        {
+
+            var product = this.data.Products.Find(id);
+
+            if (product==null)
+            {
+                return false;
+            }
+
+            product.Title = title;
+            product.Description = description;
+            product.Colour = colour;
+            product.ConditionId = conditionId;
+            product.CategoryId = categoryId;
+            product.SexId = sexId;
+            product.Manufacturer = manufacturer;
+            product.Price = price;
+            product.SizeId = sizeId;
+            product.ImageURL = imageURL;
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
         public ProductDetailsServiceModel Details(string id)
             => this.data
             .Products
@@ -133,7 +170,14 @@
                 SellerId = p.SellerId,
                 SellerName = p.Seller.FirstName + " " + p.Seller.LastName,
                 UserId = p.Seller.UserId,
-                CreatedOn = p.CreatedOn.ToString("F")
+                CreatedOn = p.CreatedOn.ToString("F"),
+                CategoryId = p.CategoryId,
+                ConditionId = p.ConditionId,
+                Sex = p.Sex.SexType,
+                SexId = p.SexId,
+                Size = p.Size.SizeType,
+                SizeId = p.SizeId
+
             })
             .FirstOrDefault();
 
@@ -156,6 +200,12 @@
                 => GetProducts(this.data
                     .Products
                     .Where(s => s.Seller.UserId == userId));
+
+        public bool IsBySeller(string productId, int sellerId)
+            => this.data
+            .Products
+            .Any(p => p.Id == productId 
+                && p.SellerId == sellerId);
 
         private static IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productQuery)
            => productQuery
@@ -223,5 +273,7 @@
 
         public bool ConditionExists(int conditionId)
              => !this.data.Conditions.Any(c => c.Id == conditionId);
+
+
     }
 }

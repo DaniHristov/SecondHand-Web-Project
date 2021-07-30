@@ -11,6 +11,6 @@ namespace SecondHandClothes.Services.Sellers
 
 
 
-        public int GetSellerId(string userId);
+        public int SellerId(string userId);
     }
 }

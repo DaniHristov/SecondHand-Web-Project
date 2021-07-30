@@ -11,7 +11,7 @@
         public SellerService(SecondHandDbContext data) 
             => this.data = data;
 
-        public int GetSellerId(string userId)
+        public int SellerId(string userId)
             => this.data
                 .Sellers
                 .Where(s => s.UserId == userId)

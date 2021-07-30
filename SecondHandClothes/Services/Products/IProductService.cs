@@ -26,6 +26,19 @@
                 string imageURL,
                 int sellerId);
 
+        bool Edit(
+                string id,
+                string title,
+                string description,
+                string colour,
+                int conditionId,
+                int categoryId,
+                int sexId,
+                string manufacturer,
+                decimal price,
+                int sizeId,
+                string imageURL);
+
         ProductDetailsServiceModel Details(string id);
 
         IEnumerable<ProductServiceModel> ProductsByUser(string userId);
@@ -49,5 +62,7 @@
         public bool SexExists(int sexId);
 
         public bool ConditionExists(int conditionId);
+
+        public bool IsBySeller(string productId, int sellerId);
     }
 }

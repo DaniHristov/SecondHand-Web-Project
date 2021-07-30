@@ -1,0 +1,84 @@
+﻿@model ProductFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <h2 class="heading-margin text-center mb-4">@ViewBag.Title</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" placeholder="Тениска Nike , Блуза Puma etc...">
+                <span asp-validation-for="Title" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    <option>Избери категория</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Manufacturer"></label>
+                <input asp-for="Manufacturer" class="form-control" placeholder="Nike, Adidas, Puma, Gucci etc....">
+                <span asp-validation-for="Manufacturer" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Colour"></label>
+                <input asp-for="Colour" class="form-control" placeholder="Червен,зелен,жълт...">
+                <span asp-validation-for="Colour" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionId"></label>
+                <select asp-for="ConditionId" class="form-control">
+                    <option>Избери състояние</option>
+                    @foreach (var condition in Model.Conditions)
+                    {
+                        <option value="@condition.Id">@condition.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ConditionId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SizeId"></label>
+                <select asp-for="SizeId" class="form-control">
+                    @foreach (var size in Model.Sizes)
+                    {
+                        <option value="@size.Id">@size.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SizeId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SexId"></label>
+                <select asp-for="SexId" class="form-control">
+                    @foreach (var sex in Model.Sexes)
+                    {
+                        <option value="@sex.Id">@sex.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SexId" class="small text-danger"></span>
+            </div>
+            <div class="form-group ">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" placeholder="валута:ЛВ" multiple />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageURL"></label>
+                <input asp-for="ImageURL" class="form-control" placeholder="Image URL...">
+                <span asp-validation-for="ImageURL" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Тениската е като нова , изсветляла е ,etc...."></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+
+            <input class="btn btn-primary mt-4" type="submit" value="Запази" />
+        </form>
+    </div>
+</div>
