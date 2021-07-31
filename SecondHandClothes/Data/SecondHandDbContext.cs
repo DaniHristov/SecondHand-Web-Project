@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecondHandClothes.Services.Products.Models;
+using SecondHandClothes.Services.Products;
 namespace SecondHandClothes.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -17,8 +18,6 @@ namespace SecondHandClothes.Data
         public DbSet<Sex> Sexes { get; init; }
 
         public DbSet<Category> Categories { get; init; }
-
-        public DbSet<ProductImage> ProductImages { get; init; }
 
         public DbSet<Product> Products { get; init; }
 
@@ -78,6 +77,8 @@ namespace SecondHandClothes.Data
         }
 
         public DbSet<SecondHandClothes.Services.Products.Models.ProductDetailsServiceModel> ProductDetailsServiceModel { get; set; }
+
+        public DbSet<SecondHandClothes.Services.Products.ProductServiceModel> ProductServiceModel { get; set; }
 
 
     }

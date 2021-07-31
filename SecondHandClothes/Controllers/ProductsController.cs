@@ -249,23 +249,29 @@
 
             var product = await data.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (data == null)
             {
                 return NotFound();
             }
 
-            return View(data);
+            var sellerId = sellers.SellerId(this.User.Id());
+            if (product.SellerId != sellerId && !this.User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
+            return View(product);
         }
 
-        //// POST: Movies/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(string id)
-        //{
-        //    var movie = await _context.Movie.FindAsync(id);
-        //    _context.Movie.Remove(movie);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var product = await data.Products.FindAsync(id);
+            data.Products.Remove(product);
+            await data.SaveChangesAsync();
+            return RedirectToAction(nameof(All));
+        }
     }
 }
