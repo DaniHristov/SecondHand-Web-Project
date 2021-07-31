@@ -11,7 +11,6 @@
     using Microsoft.EntityFrameworkCore;
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
-    using SecondHandClothes.Models.ProductImages;
     public class ProductImagesController : Controller
     {
         private readonly SecondHandDbContext _context;

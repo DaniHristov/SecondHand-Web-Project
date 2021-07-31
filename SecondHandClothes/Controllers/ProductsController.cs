@@ -2,20 +2,25 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using SecondHandClothes.Data;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Products;
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
+    using System.Threading.Tasks;
     using static SecondHandClothes.Areas.Admin.AdminConstants;
     public class ProductsController : Controller
     {
         private readonly IProductService products;
         private readonly ISellerService sellers;
+        private readonly SecondHandDbContext data;
 
-        public ProductsController(IProductService products, ISellerService sellers)
+        public ProductsController(IProductService products, ISellerService sellers, SecondHandDbContext data)
         {
             this.products = products;
             this.sellers = sellers;
+            this.data = data;
         }
 
         public IActionResult All([FromQuery]AllProductsQueryModel model)
@@ -79,22 +84,22 @@
 
             if (products.CategoryExists(product.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
+                this.ModelState.AddModelError(nameof(product.CategoryId), "Избраната категория е невалидна!");
             }
 
             if (products.SexExists(product.SexId))
             {
-                this.ModelState.AddModelError(nameof(product.SexId), "Sex does not exist.");
+                this.ModelState.AddModelError(nameof(product.SexId), "Избраният пол е невалиден!");
             }
 
             if (products.ConditionExists(product.ConditionId))
             {
-                this.ModelState.AddModelError(nameof(product.ConditionId), "Condition does not exist.");
+                this.ModelState.AddModelError(nameof(product.ConditionId), "Избраното състояние за продукт не е валидно!");
             }
 
             if (products.SizeExists(product.SizeId))
             {
-                this.ModelState.AddModelError(nameof(product.SizeId), "Size does not exist.");
+                this.ModelState.AddModelError(nameof(product.SizeId), "Избраният размер не е валиден!");
             }
 
 
@@ -227,5 +232,40 @@
             }
             return RedirectToAction(nameof(MyProducts));
         }
+
+        public IActionResult Details(string id)
+        {
+            var product = products.Details(id);
+
+            return this.View(product);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await data.Products
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (data == null)
+            {
+                return NotFound();
+            }
+
+            return View(data);
+        }
+
+        //// POST: Movies/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    var movie = await _context.Movie.FindAsync(id);
+        //    _context.Movie.Remove(movie);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }

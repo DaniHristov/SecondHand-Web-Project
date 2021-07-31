@@ -1,4 +1,6 @@
-﻿namespace SecondHandClothes.Data
+﻿using Microsoft.EntityFrameworkCore;
+using SecondHandClothes.Services.Products.Models;
+namespace SecondHandClothes.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -74,6 +76,8 @@
 
             base.OnModelCreating(builder);
         }
+
+        public DbSet<SecondHandClothes.Services.Products.Models.ProductDetailsServiceModel> ProductDetailsServiceModel { get; set; }
 
 
     }
