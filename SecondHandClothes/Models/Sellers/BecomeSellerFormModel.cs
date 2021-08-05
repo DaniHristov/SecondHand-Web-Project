@@ -11,7 +11,7 @@
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(SellerNameMaxLength, MinimumLength = SellerNameMinLength , ErrorMessage = "")]
+        [StringLength(SellerNameMaxLength, MinimumLength = SellerNameMinLength)]
         [Display(Name = "Фамилия*")]
         public string LastName { get; set; }
 

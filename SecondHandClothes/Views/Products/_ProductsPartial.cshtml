@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ProductServiceModel>
 
+
 <div class="row">
     @foreach (var product in Model)
     {
@@ -10,7 +11,7 @@
                     <h5 class="card-title text-center">@product.Title</h5>
                     <h5 class="card-title text-center">(@product.Condition)</h5>
                     <h5 class="card-title text=center">@product.Price лв.</h5>
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Виж</a>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">@ViewBag.ButtonText</a>
                     @if (ViewBag.IsEditAllowed == true || this.User.IsAdmin())
                     {
                         <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning ml-2 mr-2">Редактирай</a>

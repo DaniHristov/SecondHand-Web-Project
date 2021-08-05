@@ -56,10 +56,14 @@
                             </h5>
                             <p class="product-description">@Model.Description</p>
                             <h4 class="price mt-3">Цена: <span>@Model.Price лв</span></h4>
-
-                            <div class="action">
-                                <button class="add-to-cart btn btn-default" type="button">Купи</button>
-                            </div>
+                            @if (this.User.Id() != Model.UserId)
+                            {
+                        <div class="action">
+                            <a class="btn btn-danger" asp-controller="Cart" asp-action="AddToCart" asp-route-productId=@Model.Id asp-route-userId=@User.Id()>
+                                <i class="fas fa-shopping-cart">  Добави в количката</i>
+                            </a>
+                        </div>
+                            }
                         </div>
                     </div>
                 </div>

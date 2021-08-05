@@ -7,6 +7,10 @@
 @inject UserManager<User> UserManager
 @inject ISellerService Sellers
 
+<head>
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+</head>
+
 <ul class="navbar-nav">
 
 
@@ -16,12 +20,23 @@
         var userId = User.Id();
         var userIsSeller = Sellers.IsSeller(userId);
         var userIsAdmin = User.IsAdmin();
+
+        if (!userIsAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark font-weight-bold" asp-controller="Cart" asp-action="MyCart" asp-route-userId="@userId">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                </a>
+            </li>
+        }
+
         @if (userIsSeller && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="MyProducts">Моите продукти</a>
             </li>
         }
+
 
         else if (!userIsAdmin)
         {

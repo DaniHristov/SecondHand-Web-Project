@@ -6,7 +6,7 @@
 
     public class AllProductsQueryModel
     {
-        public const int ProductsPerPage = 3;
+        public const int ProductsPerPage = 6;
 
         [Display(Name = "Категория")]
         public string Category { get; init; }

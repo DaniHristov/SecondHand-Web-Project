@@ -216,6 +216,19 @@ namespace SecondHandClothes.Data.Migrations
                     b.ToTable("Conditions");
                 });
 
+            modelBuilder.Entity("SecondHandClothes.Data.Models.Item", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("SecondHandClothes.Data.Models.Product", b =>
                 {
                     b.Property<string>("Id")
@@ -277,27 +290,6 @@ namespace SecondHandClothes.Data.Migrations
                     b.HasIndex("SizeId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("SecondHandClothes.Data.Models.Seller", b =>
@@ -491,6 +483,17 @@ namespace SecondHandClothes.Data.Migrations
                         .HasForeignKey("ProductId");
                 });
 
+            modelBuilder.Entity("SecondHandClothes.Data.Models.Item", b =>
+                {
+                    b.HasOne("SecondHandClothes.Data.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("SecondHandClothes.Data.Models.Product", b =>
                 {
                     b.HasOne("SecondHandClothes.Data.Models.Category", "Category")
@@ -532,15 +535,6 @@ namespace SecondHandClothes.Data.Migrations
                     b.Navigation("Sex");
 
                     b.Navigation("Size");
-                });
-
-            modelBuilder.Entity("SecondHandClothes.Data.Models.ProductImage", b =>
-                {
-                    b.HasOne("SecondHandClothes.Data.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("SecondHandClothes.Data.Models.Seller", b =>

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SecondHandClothes.Services.Products.Models;
-using SecondHandClothes.Services.Products;
-namespace SecondHandClothes.Data
+﻿namespace SecondHandClothes.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -26,6 +23,8 @@ namespace SecondHandClothes.Data
         public DbSet<Comment> Comments { get; init; }
 
         public DbSet<Size> Sizes { get; init; }
+
+        public DbSet<Item> CartItems { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -72,13 +71,11 @@ namespace SecondHandClothes.Data
                 .HasForeignKey<Seller>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Item>()
+                .HasKey(x => new { x.ProductId, x.UserId });
 
             base.OnModelCreating(builder);
         }
-
-        public DbSet<SecondHandClothes.Services.Products.Models.ProductDetailsServiceModel> ProductDetailsServiceModel { get; set; }
-
-        public DbSet<SecondHandClothes.Services.Products.ProductServiceModel> ProductServiceModel { get; set; }
 
 
     }
