@@ -3,8 +3,10 @@
 @{
     ViewData["Title"] = "Начална страница";
 }
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
+</head>
 
-<link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
 @if (!this.User.Identity.IsAuthenticated)
 {
 <body>

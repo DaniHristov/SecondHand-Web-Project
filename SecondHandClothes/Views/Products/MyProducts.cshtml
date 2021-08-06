@@ -10,11 +10,12 @@
 
 @if (!Model.Any())
 {
-    <div>
-        <hr />
-        <h1 class="text-center">Все още нямате добавени продукти!</h1>
-        <hr />
-    </div>
+<div class="text-center">
+    <hr />
+    <h1 class="text-center">Все още нямате добавени продукти!</h1>
+    <a class="btn btn-primary mt-3" role="button" asp-controller="Products" asp-action="Add">Добави продукт!</a>
+    <hr />
+</div>
 }
 
-<partial name="_ProductsPartial" model="@Model"/>
+<partial name="_ProductsPartial" model="@Model" />

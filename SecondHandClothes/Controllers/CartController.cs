@@ -10,12 +10,10 @@ namespace SecondHandClothes.Controllers
     public class CartController : Controller
     {
         private readonly ICartService cartService;
-        private readonly SecondHandDbContext data;
 
-        public CartController(ICartService cartService, SecondHandDbContext data)
+        public CartController(ICartService cartService)
         {
             this.cartService = cartService;
-            this.data = data;
         }
 
         [Authorize]

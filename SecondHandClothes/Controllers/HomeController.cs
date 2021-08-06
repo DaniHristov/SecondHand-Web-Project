@@ -5,34 +5,24 @@
     using SecondHandClothes.Data;
     using SecondHandClothes.Models.Home;
     using SecondHandClothes.Services;
+    using SecondHandClothes.Services.Home;
 
     public class HomeController : Controller
     {
-        private readonly SecondHandDbContext data;
         private readonly IStatisticsService statistics;
+        private readonly IHomeService home;
 
-        public HomeController(
-            IStatisticsService statistics,
-            SecondHandDbContext data)
+
+        public HomeController(IStatisticsService statistics, IHomeService home)
         {
-            this.data = data;
             this.statistics = statistics;
+            this.home = home;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(ProductIndexViewModel model)
         {
-            var products = this.data
-                .Products
-                .OrderByDescending(c => c.CreatedOn)
-                .Select(c => new ProductIndexViewModel
-                {
-                    Id = c.Id,
-                    Brand = c.Manufacturer,
-                    Category = c.Category.CategoryName,
-                    ImageUrl = c.ImageURL
-                })
-                .Take(3)
-                .ToList();
+            var products = home.GetIndexProducts(
+                model.Id, model.Brand, model.Category, model.ImageUrl);
 
             var statistics = this.statistics.Total();
 

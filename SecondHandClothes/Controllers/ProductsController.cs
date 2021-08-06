@@ -2,26 +2,21 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using SecondHandClothes.Data;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Products;
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
-    using System.Threading.Tasks;
 
-    using static SecondHandClothes.Areas.Admin.AdminConstants;
     public class ProductsController : Controller
     {
         private readonly IProductService products;
         private readonly ISellerService sellers;
-        private readonly SecondHandDbContext data;
 
         public ProductsController(IProductService products, ISellerService sellers, SecondHandDbContext data)
         {
             this.products = products;
             this.sellers = sellers;
-            this.data = data;
         }
 
         public IActionResult All([FromQuery]AllProductsQueryModel model)
@@ -241,20 +236,15 @@
             return this.View(product);
         }
 
-        public async Task<IActionResult> Delete(string id)
+        [Authorize]
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await data.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (data == null)
-            {
-                return NotFound();
-            }
+            var product = products.ProductById(id);
 
             var sellerId = sellers.SellerId(this.User.Id());
             if (product.SellerId != sellerId && !this.User.IsAdmin())
@@ -267,11 +257,9 @@
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string id)
         {
-            var product = await data.Products.FindAsync(id);
-            data.Products.Remove(product);
-            await data.SaveChangesAsync();
+            products.Delete(id);
             return RedirectToAction(nameof(All));
         }
     }

@@ -1,21 +1,17 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using SecondHandClothes.Data;
-    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Sellers;
+    using SecondHandClothes.Services.Sellers;
 
     public class SellersController : Controller
     {
-        private readonly SecondHandDbContext data;
+        private readonly ISellerService sellers;
 
-        public SellersController(SecondHandDbContext data)
-        {
-            this.data = data;
-        }
+        public SellersController(ISellerService sellers) 
+            => this.sellers = sellers;
 
         [Authorize]
         public IActionResult Become()
@@ -29,7 +25,7 @@
         {
             var userId = this.User.Id();
 
-            if (IsUserAlreadySeller())
+            if (sellers.IsSeller(userId))
             {
                 return BadRequest();
             }
@@ -39,27 +35,13 @@
                 return View(seller);
             }
 
-            var sellerData = new Seller
-            {
-                FirstName = seller.FirstName,
-                LastName = seller.LastName,
-                PhoneNumber = seller.PhoneNumber,
-                UserId = userId
-            };
-
-            this.data.Sellers.Add(sellerData);
-            this.data.SaveChanges();
+            this.sellers.Create(
+                seller.FirstName,
+                seller.LastName,
+                seller.PhoneNumber,
+                userId);
 
             return RedirectToAction("Add" ,"Products");
-        }
-
-        private bool IsUserAlreadySeller()
-        {
-            var userId = this.User.Id();
-
-            return this.data
-                   .Sellers
-                   .Any(x => x.UserId == userId);
         }
     }
 }

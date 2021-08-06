@@ -56,10 +56,16 @@
             }
             <div class="col-6">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Твоята поръчка</h5>
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold">Твоята поръчка:</h5>
                         <hr />
-                        <h6 class="card-subtitle mb-2 ">Общо: @totalSum лв.</h6>
+                        @foreach (var product in Model)
+                        {
+                            <h5>@product.Title - @product.Price лв.</h5>
+                            <hr />
+                        }
+                        <h6 class="card-subtitle mb-2 font-weight-bold ">Общо: @totalSum лв.</h6>
+                        <a class="btn btn-primary mt-5" role="button" asp-controller="Orders" asp-action="MakeOrder">Поръчай!</a>
                     </div>
                 </div>
             </div>

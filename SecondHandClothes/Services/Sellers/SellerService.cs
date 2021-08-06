@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using SecondHandClothes.Data;
-
+    using SecondHandClothes.Data.Models;
 
     public class SellerService : ISellerService
     {
@@ -24,5 +24,21 @@
                    .Sellers
                    .Any(s => s.UserId == userId);
 
+        public int Create(string firstName, string lastName, string phoneNumber, string userId)
+        {
+
+            var sellerData = new Seller
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phoneNumber,
+                UserId = userId
+            };
+
+            this.data.Sellers.Add(sellerData);
+            this.data.SaveChanges();
+
+            return sellerData.Id;
+        }
     }
 }

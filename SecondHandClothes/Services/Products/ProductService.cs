@@ -274,6 +274,22 @@
         public bool ConditionExists(int conditionId)
              => !this.data.Conditions.Any(c => c.Id == conditionId);
 
+        public Product ProductById(string id) 
+            => this.data.Products.FirstOrDefault(p=>p.Id == id);
 
+        public bool Delete(string productId)
+        {
+            var product = data.Products.Find(productId);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            data.Products.Remove(product);
+            data.SaveChanges();
+
+            return true;
+        }
     }
 }

@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using static DataConstants;
+    
     public class Seller
     {
         public int Id { get; init; }

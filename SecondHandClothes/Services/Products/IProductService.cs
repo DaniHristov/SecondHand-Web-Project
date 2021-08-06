@@ -1,6 +1,7 @@
 ﻿namespace SecondHandClothes.Services.Products
 {
     using System.Collections.Generic;
+    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models;
     using SecondHandClothes.Services.Products.Models;
 
@@ -39,7 +40,11 @@
                 int sizeId,
                 string imageURL);
 
+        public bool Delete(string productId);
+
         ProductDetailsServiceModel Details(string id);
+
+        Product ProductById(string id);
 
         IEnumerable<ProductServiceModel> ProductsByUser(string userId);
 

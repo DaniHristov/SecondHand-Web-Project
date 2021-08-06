@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using SecondHandClothes.Services.Products;
+
     using static Data.DataConstants;
     public class ProductFormModel
     {
