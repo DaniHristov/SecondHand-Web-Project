@@ -1,13 +1,13 @@
 ﻿namespace SecondHandClothes.Controllers
 {
+    using System;
+    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Orders;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class OrdersController : Controller
     {
@@ -36,9 +36,8 @@
                 var productData = this.data.Products.Where(p => p.Id == product.ProductId).FirstOrDefault();
                 var sellerId = productData.SellerId;
                 var imageUrL = productData.ImageURL;
-
-                var current = this.data.Orders.Where(x => x.SellerId == sellerId).FirstOrDefault();
                 var seller = this.data.Sellers.Find(sellerId);
+
 
                 var orderData = new Order
                 {
@@ -50,9 +49,9 @@
                     Note = model.Note,
                     SellerId = sellerId,
                     Price = product.Product.Price,
+                    Status = Enum.Parse<OrderStatus>(model.Status.ToString()),
                     ShippingAddress = model.ShippingAddress,
-                    Status = OrderStatus.Pending,
-                    ImageURL = imageUrL,
+                    ImageURL = imageUrL
                 };
 
                 seller.Orders.Add(orderData);
@@ -77,15 +76,67 @@
                 LastName = o.LastName,
                 PhoneNumber = o.PhoneNumber,
                 Price = o.Price,
-                ShippinhAddress = o.ShippingAddress,
-                ImageURL = o.ImageURL
+                ShippingAddress = o.ShippingAddress,
+                ImageURL = o.ImageURL,
+                Status = o.Status.ToString(),
+                Id = o.Id
 
             })
                 .ToList();
 
             return View(orderData);
+        }
 
+        [Authorize]
+        public IActionResult CompleteOrder(string Id)
+        {
+            var orderData = this.data.Orders.Where(o => o.Id == Id).FirstOrDefault();
+
+            if (orderData == null)
+            {
+                return Unauthorized();
+            }
+
+            return View(orderData);
+        }
+
+        [HttpPost, ActionName("CompleteOrder")]
+        [ValidateAntiForgeryToken]
+        public IActionResult CompleteOrderConfirmed(string Id)
+        {
+            var order = this.data.Orders.Find(Id);
+
+            order.Status = OrderStatus.Изпълнена;
+
+            var product =  this.data.Products.Where(o => o.ImageURL == order.ImageURL).FirstOrDefault();
+
+            this.data.Products.Remove(product);
+            this.data.SaveChanges();
+            return RedirectToAction("MyOrders", "Orders");
+        }
+
+        [Authorize]
+        public IActionResult DeclineOrder(string Id)
+        {
+            var orderData = this.data.Orders.Where(o => o.Id == Id).FirstOrDefault();
+
+            if (orderData == null)
+            {
+                return Unauthorized();
+            }
+
+            return View(orderData);
+        }
+
+        [HttpPost, ActionName("DeclineOrder")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeclineOrderConfirmed(string Id)
+        {
+            var order = this.data.Orders.Find(Id);
+
+            order.Status = OrderStatus.Отказана;
+            this.data.SaveChanges();
+            return RedirectToAction("MyOrders", "Orders");
         }
     }
-
 }

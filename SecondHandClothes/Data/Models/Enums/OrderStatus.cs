@@ -2,8 +2,8 @@
 {
     public enum OrderStatus
     {
-        Pending=1,
-        Completed=2,
-        Canceled =3
+        Изчакване = 1,
+        Изпълнена=2,
+        Отказана =3
     }
 }

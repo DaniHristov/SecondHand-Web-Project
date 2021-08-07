@@ -27,7 +27,7 @@
 
         public string ImageURL { get; init; }
 
-        public OrderStatus Status { get; init; }
+        public OrderStatus Status { get; set; }
 
         public ICollection<Item> Products { get; init; } = new List<Item>();
 

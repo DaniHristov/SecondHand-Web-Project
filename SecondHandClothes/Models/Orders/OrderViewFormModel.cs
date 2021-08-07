@@ -1,5 +1,6 @@
 ﻿namespace SecondHandClothes.Models.Orders
 {
+    using SecondHandClothes.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
     public class OrderViewFormModel
@@ -19,6 +20,7 @@
         [Required]
         public string Note { get; init; }
 
+        public OrderStatus Status { get; init; }
 
     }
 }
