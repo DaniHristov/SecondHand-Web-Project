@@ -1,14 +1,14 @@
 ﻿@model SecondHandClothes.Services.Products.Models.ProductDetailsServiceModel
+
+
+
     <html lang="en">
         <head>
 
             <meta name="viewport" content="width=device-width, initial-scale=1">
 
-            <title>eCommerce Product Detail</title>
-            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
             <link href="~/css/site.css" rel="stylesheet" />
-            @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
             <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         </head>
@@ -56,13 +56,19 @@
                             </h5>
                             <p class="product-description">@Model.Description</p>
                             <h4 class="price mt-3">Цена: <span>@Model.Price лв</span></h4>
+                            @if (this.User.Id() == Model.UserId)
+                            {
+                                <h4 class="text-center">Този продукт е добавен от вас!</h4>
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning ml-2 mr-2">Редактирай</a>
+                            }
+
                             @if (this.User.Id() != Model.UserId)
                             {
-                        <div class="action">
-                            <a class="btn btn-danger" asp-controller="Cart" asp-action="AddToCart" asp-route-productId=@Model.Id asp-route-userId=@User.Id()>
-                                <i class="fas fa-shopping-cart">  Добави в количката</i>
-                            </a>
-                        </div>
+                                <div class="action">
+                                    <a class="btn btn-danger" asp-controller="Cart" asp-action="AddToCart" asp-route-productId=@Model.Id asp-route-userId=@User.Id()>
+                                        <i class="fas fa-shopping-cart">  Добави в количката</i>
+                                    </a>
+                                </div>
                             }
                         </div>
                     </div>

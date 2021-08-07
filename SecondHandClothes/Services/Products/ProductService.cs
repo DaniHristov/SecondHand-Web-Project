@@ -279,7 +279,7 @@
 
         public bool Delete(string productId)
         {
-            var product = data.Products.Find(productId);
+            var product = data.Products.Find(productId);            
 
             if (product == null)
             {

@@ -24,6 +24,9 @@
         [Required]
         public string UserId { get; init; }
 
-        public IEnumerable<Product> Products { get; set; } = new List<Product>();
+        public ICollection<Product> Products { get; set; } = new List<Product>();
+
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+
     }
 }

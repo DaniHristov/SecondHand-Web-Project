@@ -26,6 +26,8 @@
 
         public DbSet<Item> CartItems { get; init; }
 
+        public DbSet<Order> Orders { get; init; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

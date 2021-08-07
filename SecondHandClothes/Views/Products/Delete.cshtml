@@ -1,7 +1,7 @@
 ﻿@model SecondHandClothes.Data.Models.Product
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Изтриване на продукт";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,10 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>eCommerce Product Detail</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="~/css/DetailsCss.css" rel="stylesheet" />
-    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">*@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
@@ -40,7 +38,7 @@
                             Цвят:
                             <span>@Model.Colour</span>
                         </h5>
-                        <h3 class="product-description text-danger">Наистина ли искате да изтриете избрания продукт?</h3>
+                        <h3 class="product-description text-danger mb-4">Наистина ли искате да изтриете избрания продукт?</h3>
                         <form asp-action="Delete">
                             <input type="hidden" asp-for="Id" />
                             <input type="submit" value="Изтрий" class="btn btn-danger" /> |

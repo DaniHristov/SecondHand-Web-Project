@@ -1,8 +1,8 @@
 ﻿namespace SecondHandClothes.Data.Models
 {
-    using Microsoft.AspNetCore.Identity;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Identity;
+
     using static DataConstants;
 
     public class User : IdentityUser
