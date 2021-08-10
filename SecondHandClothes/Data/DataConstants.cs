@@ -21,7 +21,13 @@
         public const int SellerPhoneNumberMaxLength = 15;
         public const int SellerPhoneNumberMinLength = 5;
 
+        public const int PhoneNumberMaxLength = 15;
+        public const int PhoneNumberMinLength = 5;
+        public const int OrderShippingAddressMinLength = 5;
+        public const int OrderShippingAddressMaxLength = 50;
+        public const int OrderNoteMaxLength = 200;
+        public const int OrderTownMaxLength = 20;
+        public const int OrderTownMinLength = 2;
+    }                    
 
-
-    }
 }

@@ -62,7 +62,8 @@
             return RedirectToAction("All", "Products");
         }
 
-        public IActionResult MyOrders()
+        [Authorize]
+        public IActionResult MyIncomingOrders()
         {
             var seller = this.data
                     .Sellers
@@ -83,6 +84,28 @@
 
             })
                 .ToList();
+
+            return View(orderData);
+        }
+
+        [Authorize]
+        public IActionResult MyOutgoingOrders()
+        {
+            var orders = this.data.Orders.Where(o => o.UserId == this.User.Id());
+
+            var orderData = orders.Select(o => new IncomingOrdersViewModel
+            {
+                FirstName = o.FirstName,
+                LastName = o.LastName,
+                PhoneNumber = o.PhoneNumber,
+                Price = o.Price,
+                ShippingAddress = o.ShippingAddress,
+                ImageURL = o.ImageURL,
+                Status = o.Status.ToString(),
+                Id = o.Id
+
+            })
+            .ToList();
 
             return View(orderData);
         }

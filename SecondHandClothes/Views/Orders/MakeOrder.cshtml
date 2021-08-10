@@ -1,33 +1,42 @@
-﻿@model OrderViewFormModel 
+﻿@model OrderViewFormModel
+
+@{
+    ViewData["Title"] = "Поръчка";
+}
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <h2 class="heading-margin text-center mb-4">@ViewBag.Title</h2>
+        <h2 class="heading-margin text-center mb-4">Данни за доставка</h2>
 
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" placeholder="Тениска Nike , Блуза Puma etc...">
+                <input asp-for="FirstName" class="form-control">
                 <span asp-validation-for="FirstName" class="small text-danger"></span>
-            </div>  
+            </div>
             <div class="form-group">
                 <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" placeholder="Nike, Adidas, Puma, Gucci etc....">
+                <input asp-for="LastName" class="form-control">
                 <span asp-validation-for="LastName" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" placeholder="Червен,зелен,жълт...">
+                <input asp-for="PhoneNumber" class="form-control">
                 <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
             </div>
             <div class="form-group ">
+                <label asp-for="Town" class="control-label"></label>
+                <input asp-for="Town" class="form-control" />
+                <span asp-validation-for="Town" class="small text-danger"></span>
+            </div>
+            <div class="form-group ">
                 <label asp-for="ShippingAddress" class="control-label"></label>
-                <input asp-for="ShippingAddress" class="form-control" placeholder="валута:ЛВ" multiple />
-                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                <input asp-for="ShippingAddress" class="form-control" placeholder="пример 'Улица 'Име' No: 'номер'" />
+                <span asp-validation-for="ShippingAddress" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Note"></label>
-                <textarea asp-for="Note" rows="4" class="form-control" placeholder="Тениската е като нова , изсветляла е ,etc...."></textarea>
+                <textarea asp-for="Note" rows="4" class="form-control" placeholder="Ако сте посочили адрес на фирма Еконт , Спиди или някоя друга , посочете го в това поле!"></textarea>
                 <span asp-validation-for="Note" class="small text-danger"></span>
             </div>
 
@@ -35,3 +44,6 @@
         </form>
     </div>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

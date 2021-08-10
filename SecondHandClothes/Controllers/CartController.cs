@@ -1,9 +1,7 @@
-﻿
-namespace SecondHandClothes.Controllers
+﻿namespace SecondHandClothes.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using SecondHandClothes.Data;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Services.Cart;
 
@@ -32,6 +30,7 @@ namespace SecondHandClothes.Controllers
         [Authorize]
         public IActionResult AddToCart(string productId, string userId)
         {
+
             if (this.User.Id() != userId || User.IsAdmin())
             {
                 return Unauthorized();
