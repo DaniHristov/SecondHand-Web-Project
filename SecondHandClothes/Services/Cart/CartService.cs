@@ -14,17 +14,25 @@
             this.data = data;
         }
 
-        public IEnumerable<CartItemViewServiceModel> UsersCart(string userId) => data.CartItems
+        public IEnumerable<CartItemViewServiceModel> UsersCart(string userId)
+        {
+            var sellerId = this.data.Products.Select(p => p.SellerId).FirstOrDefault();
+            var seller = this.data.Sellers.FirstOrDefault(s => s.Id == sellerId);
+            
+            return data.CartItems
             .Where(sci => sci.UserId == userId)
             .Select(sci => new CartItemViewServiceModel
             {
                 Brand = sci.Product.Manufacturer,
                 ImageURL = sci.Product.ImageURL,
                 Price = sci.Product.Price,
+                Seller = seller,
+                SellerId = sellerId,
                 ProductId = sci.ProductId,
                 Title = sci.Product.Title
             })
             .ToList();
+        }
 
         public bool AddProductToCart(string productId, string userId)
         {
@@ -42,6 +50,11 @@
                 .FirstOrDefault();
 
             if (product == null)
+            {
+                return false;
+            }
+
+            if (this.data.CartItems.Where(x=>x.UserId==userId).Any(x=>x.ProductId==productId))
             {
                 return false;
             }

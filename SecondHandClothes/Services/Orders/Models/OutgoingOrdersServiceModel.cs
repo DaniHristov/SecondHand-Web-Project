@@ -1,8 +1,8 @@
-﻿namespace SecondHandClothes.Models.Orders
+﻿namespace SecondHandClothes.Services.Orders.Models
 {
     using SecondHandClothes.Data.Models;
 
-    public class OutgoingOrdersViewModel
+    public class OutgoingOrdersServiceModel
     {
         public Seller Seller { get; init; }
 

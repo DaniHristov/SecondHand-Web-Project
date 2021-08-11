@@ -1,21 +1,27 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System;
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Orders;
+    using SecondHandClothes.Services.Orders;
+    using SecondHandClothes.Services.Products;
+    using SecondHandClothes.Services.Sellers;
+    using System.Linq;
 
     public class OrdersController : Controller
     {
-        private readonly SecondHandDbContext data;
+        private readonly IOrderService ordersService;
+        private readonly ISellerService sellersService;
+        private readonly IProductService productsService;
 
-        public OrdersController(SecondHandDbContext data)
+        public OrdersController(IOrderService orders, ISellerService sellers, IProductService productsService)
         {
-            this.data = data;
+            this.ordersService = orders;
+            this.sellersService = sellers;
+            this.productsService = productsService;
         }
 
         [HttpGet]
@@ -29,34 +35,33 @@
         [Authorize]
         public IActionResult MakeOrder(OrderViewFormModel model)
         {
-            var products = this.data.CartItems.Where(ci => ci.UserId == this.User.Id()).ToList();
+            var userId = this.User.Id();
+            var products = ordersService.GetItems(userId);
+
+            if (products.Count == 0)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             foreach (var product in products.ToList())
             {
-                var productData = this.data.Products.Where(p => p.Id == product.ProductId).FirstOrDefault();
+                var productData = ordersService.GetProductData(product.ProductId);
                 var sellerId = productData.SellerId;
-                var imageUrL = productData.ImageURL;
-                var seller = this.data.Sellers.Find(sellerId);
+                var imageURL = productData.ImageURL;
+                var productTitle = productData.Title;
+                var productId = productData.Id;
+                var price = product.Product.Price;
+                var seller = sellersService.GetProductSellerById(sellerId);
 
+                var orderId = ordersService.CreateOrder(model.FirstName, model.LastName, model.PhoneNumber, products, userId, model.Note, sellerId, productId, productTitle, price, model.Status, model.ShippingAddress, imageURL, model.Town);
 
-                var orderData = new Order
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
-                    Products = products,
-                    UserId = this.User.Id(),
-                    Note = model.Note,
-                    SellerId = sellerId,
-                    Price = product.Product.Price,
-                    Status = Enum.Parse<OrderStatus>(model.Status.ToString()),
-                    ShippingAddress = model.ShippingAddress,
-                    ImageURL = imageUrL
-                };
-
-                seller.Orders.Add(orderData);
-                this.data.Orders.Add(orderData);
-                this.data.SaveChanges();
+                var order = ordersService.GetOrderById(orderId);
+                seller.Orders.Add(order);
             }
 
             return RedirectToAction("All", "Products");
@@ -65,25 +70,10 @@
         [Authorize]
         public IActionResult MyIncomingOrders()
         {
-            var seller = this.data
-                    .Sellers
-                    .FirstOrDefault(s => s.UserId == this.User.Id());
+            var userId = this.User.Id();
+            var sellerId = sellersService.SellerId(userId);
 
-            var orders = this.data.Orders.OrderByDescending(x => x).Where(o => o.SellerId == seller.Id);
-
-            var orderData = orders.Select(o => new IncomingOrdersViewModel
-            {
-                FirstName = o.FirstName,
-                LastName = o.LastName,
-                PhoneNumber = o.PhoneNumber,
-                Price = o.Price,
-                ShippingAddress = o.ShippingAddress,
-                ImageURL = o.ImageURL,
-                Status = o.Status.ToString(),
-                Id = o.Id
-
-            })
-                .ToList();
+            var orderData = ordersService.GetIncomingOrders(sellerId);
 
             return View(orderData);
         }
@@ -91,21 +81,15 @@
         [Authorize]
         public IActionResult MyOutgoingOrders()
         {
-            var orders = this.data.Orders.Where(o => o.UserId == this.User.Id());
+            var userId = this.User.Id();
+            var seller = sellersService.GetSellerByUserId(this.User.Id());
 
-            var orderData = orders.Select(o => new IncomingOrdersViewModel
+            if (seller == null)
             {
-                FirstName = o.FirstName,
-                LastName = o.LastName,
-                PhoneNumber = o.PhoneNumber,
-                Price = o.Price,
-                ShippingAddress = o.ShippingAddress,
-                ImageURL = o.ImageURL,
-                Status = o.Status.ToString(),
-                Id = o.Id
+                return NotFound();
+            }
 
-            })
-            .ToList();
+            var orderData = ordersService.GetOutgoingOrders(seller, userId);
 
             return View(orderData);
         }
@@ -113,7 +97,7 @@
         [Authorize]
         public IActionResult CompleteOrder(string Id)
         {
-            var orderData = this.data.Orders.Where(o => o.Id == Id).FirstOrDefault();
+            var orderData = ordersService.GetOrderById(Id);
 
             if (orderData == null)
             {
@@ -127,21 +111,26 @@
         [ValidateAntiForgeryToken]
         public IActionResult CompleteOrderConfirmed(string Id)
         {
-            var order = this.data.Orders.Find(Id);
+            var order = ordersService.GetOrderById(Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
 
             order.Status = OrderStatus.Изпълнена;
 
-            var product =  this.data.Products.Where(o => o.ImageURL == order.ImageURL).FirstOrDefault();
+            var product = productsService.ProductByOrderId(order.ProductId);
 
-            this.data.Products.Remove(product);
-            this.data.SaveChanges();
-            return RedirectToAction("MyOrders", "Orders");
+            this.ordersService.CompleteOrder(product,order);
+
+            return RedirectToAction("MyIncomingOrders", "Orders");
         }
 
         [Authorize]
         public IActionResult DeclineOrder(string Id)
         {
-            var orderData = this.data.Orders.Where(o => o.Id == Id).FirstOrDefault();
+            var orderData = ordersService.GetOrderById(Id);
 
             if (orderData == null)
             {
@@ -155,11 +144,11 @@
         [ValidateAntiForgeryToken]
         public IActionResult DeclineOrderConfirmed(string Id)
         {
-            var order = this.data.Orders.Find(Id);
+            var order = ordersService.GetOrderById(Id);
 
-            order.Status = OrderStatus.Отказана;
-            this.data.SaveChanges();
-            return RedirectToAction("MyOrders", "Orders");
+            ordersService.DeclineOrder(order);
+
+            return RedirectToAction("MyOutgoingOrders", "Orders");
         }
     }
 }

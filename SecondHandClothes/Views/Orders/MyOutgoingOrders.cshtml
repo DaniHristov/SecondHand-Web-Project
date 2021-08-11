@@ -1,15 +1,15 @@
-﻿@model IEnumerable<IncomingOrdersViewModel>
+﻿@model IEnumerable<OutgoingOrdersServiceModel>
 
 @{
     ViewData["Title"] = "Изходящи поръчки";
 }
 
 <head>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
     @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>*@
     @*<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
 </head>
@@ -18,30 +18,38 @@
 {
     <div class="text-center">
         <hr />
-        <h1 class="text-center">Все още нямате изходящи поръчки!</h1>
+        <h1 class="text-center">Все още нямате входящи поръчки!</h1>
         <a class="btn btn-primary mt-3" role="button" asp-controller="Products" asp-action="Add">Добави продукт!</a>
         <hr />
     </div>
 }
 
-<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-    <h1 class="text-center">Изходящи поръчки</h1>
-    <hr />
+<h1 class="text-center">Входящи поръчки</h1>
+<hr />
+<div class="row">
     @foreach (var order in Model)
     {
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src=@order.ImageURL class="img-fluid rounded-start" alt="Image">
+        <div class="col-md-6 col-sm-12 col-lg-6 col-xl-6">
+            <div class="card mb-3" style="max-width: 540px; min-height:100px">
+                <div class="col-md-12 text-center">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@order.ProductId" class="card-text btn btn-outline-warning">
+                        <img src=@order.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">
+                    </a>
                 </div>
-                <div class="col-md-8 text-center">
-                    <div class="card-body">
-                        @*<h5 class="card-title font-weight-bold">@product.Title</h5>*@
-                        <p class="card-text"><span class="font-weight-bold">Име: </span>@order.FirstName</p>
-                        <p class="card-text"><span class="font-weight-bold">Фамилия: </span>@order.LastName</p>
+                <div class="col-md-12 text-center">
+                    <div class="card-body text-center">
+                        <h5 class="card-title font-weight-bold">Информация за продавача:</h5>
+                        <hr />
+                        <p class="card-text"><span class="font-weight-bold">Име: </span>@order.Seller.FirstName</p>
+                        <p class="card-text"><span class="font-weight-bold">Фамилия: </span>@order.Seller.LastName</p>
                         <p class="card-text"><span class="font-weight-bold">Телефон: </span>@order.PhoneNumber</p>
-                        <p class="card-text"><span class="font-weight-bold">Адрес: </span>@order.ShippingAddress</p>
+                        <hr />
+                        <p class="card-text"><span class="font-weight-bold">Данни за доставка:</span></p>
+                        <hr />
+                        <p class="card-text"><span class="font-weight-bold">Град: </span>@order.Town</p>
+                        <p class="card-text"><span class="font-weight-bold">Адрес за доставка: </span>@order.ShippingAddress</p>
                         <p class="card-text"><span class="font-weight-bold">Цена: </span>@order.Price</p>
+                        <p class="card-text"><span class="font-weight-bold">Дата на поръчката: </span>@order.CreatedOn</p>
                         <hr />
 
                         @{
@@ -54,7 +62,6 @@
                         @if (order.Status == "Изчакване")
                         {
                             <p class="card-text text-warning font-weight-bold"><span class="font-weight-bold text-dark">Статус: </span>@order.Status</p>
-
                         }
 
                         @if (order.Status == "Изпълнена")
@@ -67,13 +74,7 @@
                             <p class="card-text text-danger font-weight-bold"><span class="font-weight-bold text-dark">Статус: </span>@order.Status</p>
                         }
 
-
                     </div>
-                    @if (order.Status != "Изпълнена" && order.Status != "Отказана")
-                    {
-                        <a asp-controller="Orders" asp-action="CompleteOrder" asp-route-id="@order.Id" class="btn btn-success mr-3">Изпълни</a>
-                        <a asp-controller="Orders" asp-action="DeclineOrder" asp-route-id="@order.Id" class="btn btn-danger">Откажи</a>
-                    }
                 </div>
             </div>
         </div>

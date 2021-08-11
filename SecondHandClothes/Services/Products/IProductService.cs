@@ -46,6 +46,8 @@
 
         Product ProductById(string id);
 
+        Product ProductByOrderId(string orderId);
+
         IEnumerable<ProductServiceModel> ProductsByUser(string userId);
 
         IEnumerable<string> AllBrands();
@@ -69,5 +71,7 @@
         public bool ConditionExists(int conditionId);
 
         public bool IsBySeller(string productId, int sellerId);
+
+        public bool IsProductFound(string productId);
     }
 }

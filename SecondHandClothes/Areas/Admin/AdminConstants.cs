@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SecondHandClothes.Areas.Admin
+﻿namespace SecondHandClothes.Areas.Admin
 {
     public class AdminConstants
     {

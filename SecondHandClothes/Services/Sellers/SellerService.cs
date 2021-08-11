@@ -40,5 +40,13 @@
 
             return sellerData.Id;
         }
+
+        public Seller GetProductSellerById(int sellerId)
+            => this.data.Sellers.Find(sellerId);
+
+        public Seller GetSellerByUserId(string userId) 
+            => this.data
+                    .Sellers
+                    .FirstOrDefault(s => s.UserId == userId);
     }
 }

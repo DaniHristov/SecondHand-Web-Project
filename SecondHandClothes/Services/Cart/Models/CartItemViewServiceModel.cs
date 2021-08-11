@@ -1,4 +1,6 @@
-﻿namespace SecondHandClothes.Services.Cart.Models
+﻿using SecondHandClothes.Data.Models;
+
+namespace SecondHandClothes.Services.Cart.Models
 {
     public class CartItemViewServiceModel
     {
@@ -11,5 +13,9 @@
         public string Brand { get; init; }
 
         public decimal Price { get; init; }
+
+        public int SellerId { get; init; }
+
+        public Seller Seller { get; init; }
     }
 }

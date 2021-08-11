@@ -1,6 +1,6 @@
-﻿namespace SecondHandClothes.Models.Orders
+﻿namespace SecondHandClothes.Services.Orders.Models
 {
-    public class IncomingOrdersViewModel
+    public class IncomingOrdersServiceModel
     {
         public string Id { get; init; }
 
@@ -19,7 +19,7 @@
         public string ShippingAddress { get; init; }
 
         public string ImageURL { get; init; }
-        
+
         public decimal Price { get; init; }
 
         public string Status { get; set; }

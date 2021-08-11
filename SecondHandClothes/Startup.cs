@@ -14,6 +14,7 @@ namespace SecondHandClothes
     using SecondHandClothes.Services.Cart;
     using SecondHandClothes.Services.Cart.Models;
     using SecondHandClothes.Services.Home;
+    using SecondHandClothes.Services.Orders;
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
     using SecondHandClothes.Services.Statistics;
@@ -55,6 +56,7 @@ namespace SecondHandClothes
             services.AddTransient<ISellerService, SellerService>();
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IOrderService, OrderService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

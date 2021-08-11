@@ -13,7 +13,11 @@
 
         public string PhoneNumber { get; init; }
 
+        public string Town { get; init; }
+
         public string ShippingAddress { get; init; }
+        
+        public string ProductId { get; init; }
 
         public string UserId { get; init; }
 
@@ -26,6 +30,10 @@
         public string Note { get; init; }
 
         public string ImageURL { get; init; }
+
+        public DateTime CreatedOn { get; init; } = DateTime.UtcNow;
+
+        public string ProductTitle { get; init; }
 
         public OrderStatus Status { get; set; }
 

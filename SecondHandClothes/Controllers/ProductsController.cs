@@ -231,6 +231,11 @@
 
         public IActionResult Details(string id)
         {
+            if (!products.IsProductFound(id))
+            {
+                return NotFound();
+            }
+
             var product = products.Details(id);
 
             return this.View(product);

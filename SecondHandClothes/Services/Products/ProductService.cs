@@ -291,5 +291,20 @@
 
             return true;
         }
+
+        public bool IsProductFound(string productId)
+        {
+            var product = this.data.Products.FirstOrDefault(p => p.Id == productId);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public Product ProductByOrderId(string orderId)
+            => this.data.Products.Where(p => p.Id == orderId).FirstOrDefault();
     }
 }

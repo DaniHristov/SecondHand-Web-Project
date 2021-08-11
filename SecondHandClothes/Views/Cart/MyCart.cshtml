@@ -34,13 +34,15 @@
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img class ="img-responsive"src=@product.ImageURL class="img-fluid rounded-start" alt="Image">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId" class="card-text btn btn-outline-warning">
+                                    <img src=@product.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">
+                                </a>
                             </div>
                             <div class="col-md-8 text-center">
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold">@product.Title</h5>
-                                    <p class="card-text"><span class="font-weight-bold">Цена: </span>@product.Price</p>
-                                    <p class="card-text"><span class="font-weight-bold">Бранд: </span>@product.Brand</p>
+                                    <hr />
+                                    <p class="card-text"><span class="font-weight-bold">Цена: </span>@product.Price</p> 
                                     <hr />
                                 </div>
                                 <a class="btn btn-danger" role="button" asp-controller="Cart" asp-action="Delete" asp-route-productId=@product.ProductId asp-route-userId=@User.Id()>Премахни от количката!</a>

@@ -6,11 +6,12 @@
     {
         <div class="col-md-4">
             <div class="card mb-3">
-                <img class="card-img-top img-responsive" src="@product.ImageUrl" alt="@product.Price - @product.Title (@product.Condition)">
+                <img class="card-img-top @*img-responsive*@" src="@product.ImageUrl" alt="@product.Price - @product.Title (@product.Condition)">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center">@product.Title</h5>
-                    <h5 class="card-title text-center">(@product.Condition)</h5>
-                    <h5 class="card-title text=center">@product.Price лв.</h5>
+                    <h5 class="card-title text-center font-weight-bold">@product.Title</h5>
+                    <hr />
+                    <h5 class="card-title text-center">Състояние : @product.Condition</h5>
+                    <h5 class="card-title text-center">Цена : @product.Price лв.</h5>
                     <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">@ViewBag.ButtonText</a>
                     @if (ViewBag.IsEditAllowed == true || this.User.IsAdmin())
                     {
