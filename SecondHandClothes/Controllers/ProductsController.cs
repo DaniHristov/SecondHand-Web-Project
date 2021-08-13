@@ -229,11 +229,12 @@
             return RedirectToAction(nameof(MyProducts));
         }
 
+        [Authorize]
         public IActionResult Details(string id)
         {
             if (!products.IsProductFound(id))
             {
-                return NotFound();
+                return View("NotFound");
             }
 
             var product = products.Details(id);

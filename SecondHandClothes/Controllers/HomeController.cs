@@ -22,7 +22,7 @@
         public IActionResult Index(ProductIndexViewModel model)
         {
             var products = home.GetIndexProducts(
-                model.Id, model.Brand, model.Category, model.ImageUrl);
+                model.Id, model.Brand, model.Category, model.ImageUrl,model.Title,model.Price);
 
             var statistics = this.statistics.Total();
 

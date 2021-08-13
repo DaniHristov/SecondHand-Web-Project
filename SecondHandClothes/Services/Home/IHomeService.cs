@@ -4,6 +4,6 @@
 
     public interface IHomeService
     {
-        IEnumerable<IndexQueryServiceModel> GetIndexProducts(string id, string brand, string categoryName, string imageUrl);
+        IEnumerable<IndexQueryServiceModel> GetIndexProducts(string id, string brand, string categoryName, string imageUrl,string title, decimal price);
     }
 }

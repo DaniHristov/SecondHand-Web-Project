@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<ProductServiceModel>
 
-
 <div class="row">
     @foreach (var product in Model)
     {
-        <div class="col-md-4">
+        <div class="col-md-4 col-lg-4 col-xl-4 col-sm-12">
             <div class="card mb-3">
-                <img class="card-img-top @*img-responsive*@" src="@product.ImageUrl" alt="@product.Price - @product.Title (@product.Condition)">
+                <img class="card-img-top" style="height:600px" src="@product.ImageUrl" alt="@product.Price - @product.Title (@product.Condition)">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center font-weight-bold">@product.Title</h5>
                     <hr />

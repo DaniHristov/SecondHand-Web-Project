@@ -3,6 +3,7 @@ namespace SecondHandClothes
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -49,8 +50,11 @@ namespace SecondHandClothes
                 .AddEntityFrameworkStores<SecondHandDbContext>();
 
             services
-                .AddControllersWithViews();
-
+                .AddControllersWithViews(options =>
+                {
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                });
+                
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ISellerService, SellerService>();

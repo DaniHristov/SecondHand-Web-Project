@@ -15,6 +15,7 @@
     @*<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
 </head>
 
+
 @if (!Model.Any())
 {
     <div class="text-center">
@@ -30,12 +31,21 @@
     <div class="row">
         @foreach (var order in Model)
         {
-            <div class="col-md-6 col-sm-12 col-lg-6 col-xl-6">
+            <div class="col-md-4 col-sm-12 col-lg-4 col-xl-4">
                 <div class="card mb-3" style="max-width: 540px; min-height:950px">
                     <div class="col-md-12 text-center">
-                        <a asp-controller="Products" asp-action="Details" asp-route-id="@order.ProductId" class="card-text btn btn-outline-warning">
-                            <img src=@order.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">
-                        </a>
+                        @if (order.Status == "Изпълнена")
+                        {
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@order.ProductId" class="card-text btn btn-outline-warning disabled">
+                                <img src=@order.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">
+                            </a>
+                        }
+                        @if (order.Status != "Изпълнена")
+                        {
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@order.ProductId" class="card-text btn btn-outline-warning">
+                                <img src=@order.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">
+                            </a>
+                        }
                     </div>
                         <div class="col-md-12 text-center">
                             <div class="card-body text-center">

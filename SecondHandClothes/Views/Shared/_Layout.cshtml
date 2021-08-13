@@ -9,7 +9,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <h1 style="font-family : fantasy">SecondHand</h1>
                 </a>
@@ -34,16 +34,16 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - SecondHandClothes - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        @*<div class="text-center" style="margin-top: 0px">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d216.25493484608444!2d22.694458391061186!3d42.28091187872288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14aa9c8baaa2099d%3A0xa787b39cdde0993b!2z0JzQsNCz0LDQt9C40L0gNNGB0LXQt9C-0L3QsA!5e0!3m2!1sen!2sbg!4v1628851136893!5m2!1sen!2sbg" width="550" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>*@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -40,7 +40,7 @@
 
             if (products.Count == 0)
             {
-                return BadRequest();
+                return View("Error", BadRequest());
             }
 
             if (!ModelState.IsValid)
