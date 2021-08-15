@@ -58,6 +58,11 @@
                 var price = product.Product.Price;
                 var seller = sellersService.GetProductSellerById(sellerId);
 
+                if (ordersService.IsAlreadyOrdered(product.UserId,productId))
+                {
+                    return BadRequest("Вече сте поръчали този продукт");
+                }
+
                 var orderId = ordersService.CreateOrder(model.FirstName, model.LastName, model.PhoneNumber, products, userId, model.Note, sellerId, productId, productTitle, price, model.Status, model.ShippingAddress, imageURL, model.Town);
 
                 var order = ordersService.GetOrderById(orderId);

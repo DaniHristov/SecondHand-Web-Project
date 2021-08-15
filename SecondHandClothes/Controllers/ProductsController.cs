@@ -44,11 +44,17 @@
         [Authorize]
         public IActionResult MyProducts()
         {
+            if (!sellers.IsSeller(this.User.Id()) && !this.User.IsAdmin())
+            {
+                return Unauthorized();
+            }
+
             var myProducts = this.products.ProductsByUser(this.User.Id());
 
             return View(myProducts);
         }
 
+        [HttpGet]
         [Authorize]
         public IActionResult Add()
         {
@@ -67,8 +73,8 @@
             });
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public IActionResult Add(ProductFormModel product)
         {
             var sellerId = sellers.SellerId(this.User.Id());
@@ -109,7 +115,7 @@
                 return View(product);
             }
 
-            this.products.Create(
+            var produtctId = this.products.Create(
                 product.Title,
                 product.Description,
                 product.Colour,
@@ -122,7 +128,7 @@
                 product.ImageURL,
                 sellerId);
 
-            return RedirectToAction("All", "Products");
+            return RedirectToAction(nameof(Details), new { id = produtctId });
         }
 
         [Authorize]

@@ -121,5 +121,17 @@
             order.Status = OrderStatus.Отказана;
             this.data.SaveChanges();
         }
+
+        public bool IsAlreadyOrdered(string userId, string productId)
+        {
+            var isOrdered = this.data.Orders.Where(o => o.UserId == userId && o.ProductId == productId).FirstOrDefault();
+
+            if (isOrdered==null)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -9,10 +9,51 @@
 
 <head>
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <style>
+        .hoverable{
+  display:inline-block;
+  backface-visibility: hidden;
+  vertical-align: middle;
+  position:relative;
+  box-shadow: 0 0 1px rgba(0,0,0,0);
+  transition-duration: .3s;
+  transition-property:transform;
+}
+
+.hoverable:before{
+  position:absolute;
+  pointer-events: none;
+  z-index:-1;
+  content: '';
+  top: 100%;
+  left: 5%;
+  height:10px;
+  width:90%;
+  opacity:0;
+  background: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
+  transition-duration: 0.3s;
+  transition-property: transform, opacity;
+}
+
+.hoverable:hover, .hoverable:active, .hoverable:focus{
+  transform: translateY(-5px);
+}
+.hoverable:hover:before, .hoverable:active:before, .hoverable:focus:before{
+  opacity: 1;
+  transform: translateY(-5px);
+}
+
+.bounce {
+  animation-name: bounce-animation;
+  animation-duration: 2s;
+}
+    </style>
 </head>
 
 <ul class="navbar-nav">
 
+    
 
     @if (SignInManager.IsSignedIn(User))
     {
@@ -23,7 +64,7 @@
 
         if (!userIsAdmin)
         {
-            <li class="nav-item">
+            <li class="nav-item hoverable">
                 <a class="nav-link text-dark font-weight-bold" asp-controller="Cart" asp-action="MyCart" asp-route-userId="@userId">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 </a>
@@ -32,8 +73,8 @@
 
         @if (userIsSeller && !userIsAdmin)
         {
-            <li class="nav-item">
-                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="MyProducts">Моите продукти</a>
+            <li class="nav-item hoverable">
+                <a class="nav-link text-dark font-weight-bold hoverable bounce" asp-area="" asp-controller="Products" asp-action="MyProducts">Моите продукти</a>
             </li>
 
             <li class="nav-item">
@@ -41,7 +82,7 @@
                     <a class="nav-link dropdown-toggle text-dark font-weight-bold"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Поръчки
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenu2">
                         <a class="dropdown-item nav-link text-dark font-weight-bold" asp-area="" asp-controller="Orders" asp-action="MyIncomingOrders">Входящи</a>
                         <a class="dropdown-item nav-link text-dark font-weight-bold" asp-area="" asp-controller="Orders" asp-action="MyOutgoingOrders">Изходящи</a>
                     </div>
@@ -52,15 +93,15 @@
 
         else if (!userIsAdmin)
         {
-            <li class="nav-item">
+            <li class="nav-item hoverable">
                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Sellers" asp-action="Become">Започни да продаваш</a>
             </li>
         }
 
-        <li class="nav-item">
+        <li class="nav-item hoverable">
             <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Профил</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item hoverable">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Изход</button>
             </form>
@@ -68,11 +109,28 @@
     }
     else
     {
-        <li class="nav-item">
+        <li class="nav-item hoverable">
             <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item hoverable">
             <a class="nav-link text-dark font-weight-bold" asp-area="Identity" asp-page="/Account/Login">Вход</a>
         </li>
     }
 </ul>
+
+<script>
+    $(function(){
+  var str = '#len'; //increment by 1 up to 1-nelemnts
+  $(document).ready(function(){
+    var i, stop;
+    i = 1;
+    stop = 4; //num elements
+    setInterval(function(){
+      if (i > stop){
+        return;
+      }
+      $('#len'+(i++)).toggleClass('bounce');
+    }, 500)
+  });
+});
+</script>

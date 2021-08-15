@@ -8,6 +8,9 @@
 
     public interface IOrderService
     {
+
+        public bool IsAlreadyOrdered(string userId, string productId);
+
         public void CompleteOrder(Product product,Order order);
 
         public void DeclineOrder(Order order);
