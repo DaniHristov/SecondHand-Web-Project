@@ -18,15 +18,16 @@
         }
 
         public ProductQueryServiceModel All(
-            string category,
-            string manufacturer,
-            string searchTerm,
-            ProductSorting sorting,
-            int currentPage,
-            int productsPerPage)
+            string category = null,
+            string manufacturer = null,
+            string searchTerm = null,
+            ProductSorting sorting = ProductSorting.CreatedOn,
+            int currentPage = 1,
+            int productsPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
 
-            var productsQuery = this.data.Products.AsQueryable();
+            var productsQuery = this.data.Products.Where(p=> !publicOnly || p.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(category))
             {
@@ -67,7 +68,9 @@
                     Condition = p.Condition.ConditionType,
                     Price = p.Price,
                     ImageUrl = p.ImageURL,
-                    Title = p.Title
+                    Title = p.Title,
+                    IsPublic =p.IsPublic
+                    
                 })
                 .ToList();
 
@@ -97,7 +100,7 @@
             var productData = new Product
             {
                 Title = title,
-                Description = description,  
+                Description = description,
                 Colour = colour,
                 ConditionId = conditionId,
                 CategoryId = categoryId,
@@ -106,7 +109,9 @@
                 Price = price,
                 SizeId = sizeId,
                 ImageURL = imageURL,
-                SellerId = sellerId
+                SellerId = sellerId,
+                IsPublic = false
+                
             };
 
             this.data.Products.Add(productData);
@@ -126,7 +131,8 @@
             string manufacturer,
             decimal price,
             int sizeId,
-            string imageURL)
+            string imageURL,
+            bool isPublic)
         {
 
             var product = this.data.Products.Find(id);
@@ -146,6 +152,7 @@
             product.Price = price;
             product.SizeId = sizeId;
             product.ImageURL = imageURL;
+            product.IsPublic = isPublic;
 
             this.data.SaveChanges();
 
@@ -216,7 +223,8 @@
                    Condition = p.Condition.ConditionType,
                    Price = p.Price,
                    ImageUrl = p.ImageURL,
-                   Title = p.Title
+                   Title = p.Title,
+                   IsPublic = p.IsPublic
                })
                .ToList();
 
@@ -306,5 +314,14 @@
 
         public Product ProductByOrderId(string orderId)
             => this.data.Products.Where(p => p.Id == orderId).FirstOrDefault();
+
+        public void ChangeVisibility(string Id)
+        {
+            var product = this.data.Products.Find(Id);
+
+            product.IsPublic = !product.IsPublic;
+
+            this.data.SaveChanges();
+        }
     }
 }

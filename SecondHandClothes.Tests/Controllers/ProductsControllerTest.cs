@@ -2,6 +2,7 @@
 {
     using MyTested.AspNetCore.Mvc;
     using SecondHandClothes.Controllers;
+    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models.Products;
     using SecondHandClothes.Services.Products;
     using System.Collections.Generic;
@@ -44,9 +45,9 @@
             .View(v => v.WithModelOfType<IEnumerable<ProductServiceModel>>());
 
         [Fact]
-        public void CreateGetShouldHaveRestrictionsForHttpGetOnlyAndAuthorizedUsersAndShouldReturnView()
+        public void AddGetShouldHaveRestrictionsForHttpGetOnlyAndAuthorizedUsersAndShouldReturnView()
                 => MyController<ProductsController>
-                    .Instance(c => c.WithUser(c=>c.InRole("Administrator")))
+                    .Instance(c => c.WithUser())
                     .Calling(c => c.Add())
                     .ShouldHave()
                     .ActionAttributes(attrs => attrs

@@ -19,15 +19,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (this.User.Identity.IsAuthenticated)
+                        @if (!this.User.IsAdmin())
                         {
+                            @if (this.User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="Add">Добави продукт</a>
+                                </li>
+                            }
                             <li class="nav-item">
-                                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="Add">Добави продукт</a>
+                                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="All">Всички продукти</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Products" asp-action="All">Всички продукти</a>
-                        </li>
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -35,15 +39,18 @@
         </nav>
     </header>
     <div class="container-fluid">
+        @if (TempData.ContainsKey(WebConstants.GlobalMessageKey))
+        {
+            <div class="alert alert-success text-center" role="alert">
+                @TempData[WebConstants.GlobalMessageKey]
+            </div>
+        }
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        @*<div class="text-center" style="margin-top: 0px">
-           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d216.25493484608444!2d22.694458391061186!3d42.28091187872288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14aa9c8baaa2099d%3A0xa787b39cdde0993b!2z0JzQsNCz0LDQt9C40L0gNNGB0LXQt9C-0L3QsA!5e0!3m2!1sen!2sbg!4v1628851136893!5m2!1sen!2sbg" width="550" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>*@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

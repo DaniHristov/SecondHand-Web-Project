@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SecondHandClothes.Data.Migrations
+﻿namespace SecondHandClothes.Data.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class IntroduceItemTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

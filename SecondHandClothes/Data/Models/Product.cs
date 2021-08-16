@@ -32,6 +32,8 @@
         [Url]
         public string ImageURL { get; set; }
 
+        public bool IsPublic { get; set; }
+
         [Required]
         [MaxLength(ProductSizeMaxLength)]
         public int SizeId { get; set; }

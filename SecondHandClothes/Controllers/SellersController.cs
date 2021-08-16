@@ -6,6 +6,7 @@
     using SecondHandClothes.Models.Sellers;
     using SecondHandClothes.Services.Sellers;
 
+    using static WebConstants;
     public class SellersController : Controller
     {
         private readonly ISellerService sellers;
@@ -40,6 +41,8 @@
                 seller.LastName,
                 seller.PhoneNumber,
                 userId);
+
+            TempData[GlobalMessageKey] = "Успешно станахте продавач.Добавете свой продукт сега!!";
 
             return RedirectToAction("Add" ,"Products");
         }

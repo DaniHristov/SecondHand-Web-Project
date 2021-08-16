@@ -1,15 +1,16 @@
 ﻿namespace SecondHandClothes.Controllers
 {
+    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Models.Orders;
     using SecondHandClothes.Services.Orders;
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
-    using System.Linq;
+
+    using static WebConstants;
 
     public class OrdersController : Controller
     {
@@ -69,6 +70,8 @@
                 seller.Orders.Add(order);
             }
 
+            TempData[GlobalMessageKey] = "Поръчката ви беше изпратена успешно и чака потвърждение от продавача!";
+
             return RedirectToAction("All", "Products");
         }
 
@@ -99,6 +102,7 @@
             return View(orderData);
         }
 
+        [HttpGet]
         [Authorize]
         public IActionResult CompleteOrder(string Id)
         {
@@ -129,9 +133,12 @@
 
             this.ordersService.CompleteOrder(product,order);
 
+            TempData[GlobalMessageKey] = "Успешно потвърдихте поръчката!";
+
             return RedirectToAction("MyIncomingOrders", "Orders");
         }
 
+        [HttpGet]
         [Authorize]
         public IActionResult DeclineOrder(string Id)
         {
@@ -152,6 +159,8 @@
             var order = ordersService.GetOrderById(Id);
 
             ordersService.DeclineOrder(order);
+
+            TempData[GlobalMessageKey] = "Успешно отказахте поръчката!";
 
             return RedirectToAction("MyOutgoingOrders", "Orders");
         }

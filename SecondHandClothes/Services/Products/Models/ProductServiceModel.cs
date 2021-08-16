@@ -13,5 +13,7 @@
         public string Condition { get; init; }
 
         public string ImageUrl { get; init; }
+
+        public bool IsPublic { get; init; }
     }
 }

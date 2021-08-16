@@ -5,6 +5,8 @@
     using SecondHandClothes.Infrastructure;
     using SecondHandClothes.Services.Cart;
 
+    using static WebConstants;
+
     public class CartController : Controller
     {
         private readonly ICartService cartService;
@@ -38,6 +40,8 @@
 
             cartService.AddProductToCart(productId, userId);
 
+            TempData[GlobalMessageKey] = "Продуктът беше успешно добавен във вашата количка!";
+
             return RedirectToAction("All", "Products");
         }
 
@@ -45,6 +49,8 @@
         public IActionResult Delete(string productId, string userId)
         {
             cartService.Delete(productId, userId);
+
+            TempData[GlobalMessageKey] = "Продуктът беше успешно премахнат от вашата количка!";
 
             return RedirectToAction($"MyCart", new {userId = this.User.Id()});
         }

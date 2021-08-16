@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SecondHandClothes.Data.Migrations
+﻿namespace SecondHandClothes.Data.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class OrderTableExtended : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -62,7 +62,7 @@
                                 <a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning ml-2 mr-2">Редактирай</a>
                             }
 
-                            @if (this.User.Id() != Model.UserId)
+                            @if (this.User.Id() != Model.UserId && !this.User.IsAdmin())
                             {
                                 <div class="action">
                                     <a class="btn btn-danger" asp-controller="Cart" asp-action="AddToCart" asp-route-productId=@Model.Id asp-route-userId=@User.Id()>

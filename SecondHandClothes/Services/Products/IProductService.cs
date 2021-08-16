@@ -8,12 +8,13 @@
     public interface IProductService
     {
         ProductQueryServiceModel All(
-            string category,
-            string manufacturer,
-            string searchTerm,
-            ProductSorting sorting,
-            int currentPage,
-            int productsPerPage);
+            string category = null,
+            string manufacturer = null,
+            string searchTerm = null,
+            ProductSorting sorting = ProductSorting.CreatedOn,
+            int currentPage = 1,
+            int productsPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         string Create(string title,
                 string description,
@@ -38,7 +39,10 @@
                 string manufacturer,
                 decimal price,
                 int sizeId,
-                string imageURL);
+                string imageURL,
+                bool isPublic);
+
+        public void ChangeVisibility(string productId);
 
         public bool Delete(string productId);
 

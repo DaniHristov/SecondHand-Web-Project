@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SecondHandClothes.Data.Migrations
+﻿namespace SecondHandClothes.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class SellerTableUpdated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

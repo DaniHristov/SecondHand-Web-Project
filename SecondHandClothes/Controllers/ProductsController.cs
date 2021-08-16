@@ -8,6 +8,7 @@
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
 
+    using static WebConstants;
     public class ProductsController : Controller
     {
         private readonly IProductService products;
@@ -128,6 +129,8 @@
                 product.ImageURL,
                 sellerId);
 
+            TempData[GlobalMessageKey] = "Продуктът ви беше добавен успешно и чака потвърждение от админ!";
+
             return RedirectToAction(nameof(Details), new { id = produtctId });
         }
 
@@ -147,6 +150,7 @@
             {
                 return Unauthorized();
             }
+
 
             return this.View(
             new ProductFormModel
@@ -226,12 +230,16 @@
                 product.Manufacturer,
                 product.Price,
                 product.SizeId,
-                product.ImageURL);
+                product.ImageURL,
+                this.User.IsAdmin());
 
             if (User.IsAdmin())
             {
                 return RedirectToAction(nameof(All));
             }
+
+            TempData[GlobalMessageKey] = $"Продуктът беше редактиран успешно{(this.User.IsAdmin() ? string.Empty : " и чака потвърждение от админ!")}!";
+
             return RedirectToAction(nameof(MyProducts));
         }
 

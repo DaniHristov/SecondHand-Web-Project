@@ -17,6 +17,7 @@
         {
             var products = this.data
                 .Products
+                .Where(p=>p.IsPublic)
                 .OrderByDescending(c => c.CreatedOn)
                 .Select(c => new IndexQueryServiceModel
                 {

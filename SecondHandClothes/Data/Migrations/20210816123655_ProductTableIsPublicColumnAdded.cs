@@ -2,22 +2,22 @@
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class ImageURLAdded : Migration
+    public partial class ProductTableIsPublicColumnAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "ImageURL",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsPublic",
                 table: "Products",
-                type: "nvarchar(max)",
+                type: "bit",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ImageURL",
+                name: "IsPublic",
                 table: "Products");
         }
     }

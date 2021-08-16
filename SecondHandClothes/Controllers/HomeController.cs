@@ -1,8 +1,6 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
-    using SecondHandClothes.Data;
     using SecondHandClothes.Models.Home;
     using SecondHandClothes.Services;
     using SecondHandClothes.Services.Home;
@@ -22,7 +20,7 @@
         public IActionResult Index(ProductIndexViewModel model)
         {
             var products = home.GetIndexProducts(
-                model.Id, model.Brand, model.Category, model.ImageUrl,model.Title,model.Price);
+                model.Id, model.Brand, model.Category, model.ImageUrl, model.Title, model.Price);
 
             var statistics = this.statistics.Total();
 

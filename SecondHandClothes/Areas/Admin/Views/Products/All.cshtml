@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ProductServiceModel>
+
+@{
+    ViewBag.Title = "Products Administration";
+}
+
+<h1>All Products</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Заглавие</th>
+            <th scope="col">Бранд</th>
+            <th scope="col">Снимка(URL)</th>
+            <th scope="col">Одобрен</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+        <tr>
+            <td scope="col">@product.Id</td>
+            <td scope="col">@product.Title</td>
+            <td scope="col">@product.Brand</td>
+            <td scope="col"><img src="@product.ImageUrl" style="max-width:50px;max-height:50px" /></td>
+            <td scope="col">@(product.IsPublic ? "Да" : "Не")</td>
+            <td scope="col">
+                <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-3">Изтрий</a>
+                <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-3">Редактирай</a>
+                <a asp-area="Admin" asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@product.Id" class="btn btn-info float-right ml-3">@(product.IsPublic ? "Скрий" : "Покажи")</a>
+                <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-3">Виж</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
