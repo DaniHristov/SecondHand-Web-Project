@@ -5,13 +5,11 @@
     using Xunit;
     using CarRentingSystem.Test.Mocks;
     using SecondHandClothes.Data.Models;
-    using SecondHandClothes.Services.Products;
-
-    using static ProductServiceTest;
     using SecondHandClothes.Services.Orders;
     using SecondHandClothes.Services.Cart.Models;
-    using System.Collections.Generic;
     using SecondHandClothes.Services.Sellers;
+
+    using static ProductServiceTest;
 
     public class OrderServiceTest
     {

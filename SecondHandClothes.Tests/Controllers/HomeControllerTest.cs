@@ -14,13 +14,9 @@
              => MyController<HomeController>
         .Instance(controller => controller
             .WithData(TenPublicProducts()))
-        .Calling(c => c.Index(new ProductIndexViewModel
-        {
-
-        }))
+        .Calling(c => c.Index())
         .ShouldReturn()
-        .View(view => view
-            .WithModelOfType<IndexViewModel>());
+        .View();
 
         [Fact]
         public void ErrorShouldReturnView()

@@ -24,7 +24,7 @@
 
             var homeService = new HomeService(data);
             //Act
-            var homeData = homeService.GetIndexProducts(product.Id, product.Manufacturer, product.Category.CategoryName, product.ImageURL, product.Title, product.Price);
+            var homeData = homeService.GetIndexProducts();
 
             //Assert
             Assert.Equal(1, homeData.Count());
