@@ -11,6 +11,11 @@
                     <hr />
                     <h5 class="card-title text-center">Състояние : @product.Condition</h5>
                     <h5 class="card-title text-center">Цена : @product.Price лв.</h5>
+                    @if (!product.IsPublic)
+                    {
+                        <h5 class="card-title text-warning">Продуктът изчаква одобрение от админ!</h5>
+
+                    }
                     <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">@ViewBag.ButtonText</a>
                     @if (ViewBag.IsEditAllowed == true || this.User.IsAdmin())
                     {

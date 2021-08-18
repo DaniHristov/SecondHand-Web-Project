@@ -12,6 +12,7 @@
         private readonly ISellerService sellers;
 
         public SellersController(ISellerService sellers) 
+
             => this.sellers = sellers;
 
         [Authorize]
@@ -42,7 +43,7 @@
                 seller.PhoneNumber,
                 userId);
 
-            TempData[GlobalMessageKey] = "Успешно станахте продавач.Добавете свой продукт сега!!";
+            TempData[GlobalMessageKey] = "Успешно станахте продавач.Добавете свой продукт сега!";
 
             return RedirectToAction("Add" ,"Products");
         }

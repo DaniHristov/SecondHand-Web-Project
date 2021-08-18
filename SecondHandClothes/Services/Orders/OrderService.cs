@@ -13,6 +13,12 @@
         private readonly SecondHandDbContext data;
         private readonly ISellerService sellers;
 
+        public OrderService(SecondHandDbContext data)
+        {
+            this.data = data;
+        }
+
+
         public OrderService(ISellerService sellers, SecondHandDbContext data)
         {
             this.data = data;

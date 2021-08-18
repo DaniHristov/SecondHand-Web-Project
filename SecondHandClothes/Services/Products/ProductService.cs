@@ -183,7 +183,8 @@
                 Sex = p.Sex.SexType,
                 SexId = p.SexId,
                 Size = p.Size.SizeType,
-                SizeId = p.SizeId
+                SizeId = p.SizeId,
+                IsPublic = p.IsPublic
 
             })
             .FirstOrDefault();

@@ -13,7 +13,7 @@
             this.data = data;
         }
 
-        public IEnumerable<IndexQueryServiceModel> GetIndexProducts(string id, string brand, string categoryName, string imageUrl,string title,decimal price)
+        public IList<IndexQueryServiceModel> GetIndexProducts()
         {
             var products = this.data
                 .Products

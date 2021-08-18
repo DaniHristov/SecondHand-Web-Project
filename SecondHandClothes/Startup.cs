@@ -48,6 +48,7 @@ namespace SecondHandClothes
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SecondHandDbContext>();
+            services.AddMemoryCache();
 
             services
                 .AddControllersWithViews(options =>
