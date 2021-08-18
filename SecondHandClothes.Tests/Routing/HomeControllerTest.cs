@@ -3,16 +3,24 @@
     using MyTested.AspNetCore.Mvc;
     using SecondHandClothes.Controllers;
     using Xunit;
+
     public class HomeControllerTest
     {
-        [Fact]
-        public void IndexRouteShouldBeMapped()
-    => MyRouting
-        .Configuration()
-        .ShouldMap("/")
-        .To<HomeController>(c => c.Index(new Models.Home.ProductIndexViewModel
-        {
-        }));
+        //[Theory]
+        //[InlineData("test")]
+        //public void IndexRouteShouldBeMapped(string id)
+        //  => MyRouting
+        //.Configuration()
+        //.ShouldMap("/")
+        //.To<HomeController>(c => c.Index(new Models.Home.ProductIndexViewModel
+        //{
+        //    Id = id,
+        //    Title = "Test",
+        //    Brand = "Test",
+        //    Category = "test",
+        //    ImageUrl = "test",
+        //    Price = 25.32m
+        //}));
 
         [Fact]
         public void ErrorRouteShouldBeMapped()
