@@ -1,10 +1,9 @@
 ﻿namespace SecondHandClothes.Tests.Services
 {
-    using System.Linq;
-    using Xunit;
     using CarRentingSystem.Test.Mocks;
     using SecondHandClothes.Services.Sellers;
-
+    using System.Linq;
+    using Xunit;
     using static ProductServiceTest;
 
     public class SellerServiceTest
@@ -150,7 +149,7 @@
             var sellerData = sellerService.SellerId(seller.UserId);
 
             //Assert
-            Assert.Equal(sellerData,seller.Id);
+            Assert.Equal(sellerData, seller.Id);
         }
 
         [Fact]

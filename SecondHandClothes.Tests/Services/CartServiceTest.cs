@@ -1,14 +1,11 @@
 ﻿namespace SecondHandClothes.Tests.Services
 {
-    using System;
-    using System.Linq;
     using Xunit;
     using CarRentingSystem.Test.Mocks;
     using SecondHandClothes.Data.Models;
-    using SecondHandClothes.Services.Products;
+    using SecondHandClothes.Services.Cart.Models;
 
     using static ProductServiceTest;
-    using SecondHandClothes.Services.Cart.Models;
 
     public class CartServiceTest
     {

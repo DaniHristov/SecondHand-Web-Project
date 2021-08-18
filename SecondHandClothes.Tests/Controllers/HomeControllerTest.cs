@@ -2,7 +2,6 @@
 {
     using MyTested.AspNetCore.Mvc;
     using SecondHandClothes.Controllers;
-    using SecondHandClothes.Models.Home;
     using Xunit;
 
     using static Data.Products;

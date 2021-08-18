@@ -1,6 +1,5 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SecondHandClothes.Data.Models;
@@ -9,7 +8,7 @@
     using SecondHandClothes.Services.Orders;
     using SecondHandClothes.Services.Products;
     using SecondHandClothes.Services.Sellers;
-
+    using System.Linq;
     using static WebConstants;
 
     public class OrdersController : Controller
@@ -59,7 +58,7 @@
                 var price = product.Product.Price;
                 var seller = sellersService.GetProductSellerById(sellerId);
 
-                if (ordersService.IsAlreadyOrdered(product.UserId,productId))
+                if (ordersService.IsAlreadyOrdered(product.UserId, productId))
                 {
                     return BadRequest("Вече сте поръчали този продукт");
                 }
@@ -131,7 +130,7 @@
 
             var product = productsService.ProductByOrderId(order.ProductId);
 
-            this.ordersService.CompleteOrder(product,order);
+            this.ordersService.CompleteOrder(product, order);
 
             TempData[GlobalMessageKey] = "Успешно потвърдихте поръчката!";
 

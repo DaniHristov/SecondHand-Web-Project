@@ -1,12 +1,12 @@
 ﻿namespace SecondHandClothes.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using SecondHandClothes.Models.Home;
     using SecondHandClothes.Services;
     using SecondHandClothes.Services.Home;
+    using System;
+    using System.Collections.Generic;
     using static WebConstants.Cache;
     public class HomeController : Controller
     {

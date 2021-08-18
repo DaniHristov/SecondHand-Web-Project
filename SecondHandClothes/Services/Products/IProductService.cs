@@ -1,9 +1,9 @@
 ﻿namespace SecondHandClothes.Services.Products
 {
-    using System.Collections.Generic;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models;
     using SecondHandClothes.Services.Products.Models;
+    using System.Collections.Generic;
 
     public interface IProductService
     {

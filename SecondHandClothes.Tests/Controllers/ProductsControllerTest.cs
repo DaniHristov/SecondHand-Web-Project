@@ -2,10 +2,7 @@
 {
     using MyTested.AspNetCore.Mvc;
     using SecondHandClothes.Controllers;
-    using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models.Products;
-    using SecondHandClothes.Services.Products;
-    using System.Collections.Generic;
     using Xunit;
 
     using static Data.Products;
@@ -31,6 +28,7 @@
                 .ShouldHave()
                 .ActionAttributes(attrs => attrs
                     .RestrictingForAuthorizedRequests());
+
 
 
     }

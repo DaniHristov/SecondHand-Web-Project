@@ -1,7 +1,7 @@
-﻿using SecondHandClothes.Data.Models;
-
-namespace SecondHandClothes.Services.Cart.Models
+﻿namespace SecondHandClothes.Services.Cart.Models
 {
+    using SecondHandClothes.Data.Models;
+
     public class CartItemViewServiceModel
     {
         public string ProductId { get; init; }

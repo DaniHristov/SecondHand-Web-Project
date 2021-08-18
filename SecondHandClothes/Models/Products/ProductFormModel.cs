@@ -7,7 +7,6 @@
     using static Data.DataConstants;
     public class ProductFormModel
     {
-        //TODO : Опиши грешките
         [Required(ErrorMessage = "Полето 'Заглавие' е задължително.")]
         [StringLength(ProdcutTitleMaxLength,MinimumLength = ProductTitleMinLength,
             ErrorMessage = "Заглавието трябва да бъде между {2} и {1} символа дълго.")]

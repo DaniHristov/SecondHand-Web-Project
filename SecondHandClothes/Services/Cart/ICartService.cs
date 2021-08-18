@@ -1,7 +1,7 @@
 ﻿namespace SecondHandClothes.Services.Cart
 {
-    using System.Collections.Generic;
     using SecondHandClothes.Services.Cart.Models;
+    using System.Collections.Generic;
 
     public interface ICartService
     {

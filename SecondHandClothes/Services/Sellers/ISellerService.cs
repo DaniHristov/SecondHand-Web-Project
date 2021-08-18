@@ -14,8 +14,8 @@
 
         public int Create(
             string firstName,
-            string lastName, 
-            string phoneNumber, 
+            string lastName,
+            string phoneNumber,
             string userId);
     }
 }

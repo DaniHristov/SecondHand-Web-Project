@@ -18,7 +18,7 @@
         {
             var sellerId = this.data.Products.Select(p => p.SellerId).FirstOrDefault();
             var seller = this.data.Sellers.FirstOrDefault(s => s.Id == sellerId);
-            
+
             return data.CartItems
             .Where(sci => sci.UserId == userId)
             .Select(sci => new CartItemViewServiceModel
@@ -54,7 +54,7 @@
                 return false;
             }
 
-            if (this.data.CartItems.Where(x=>x.UserId==userId).Any(x=>x.ProductId==productId))
+            if (this.data.CartItems.Where(x => x.UserId == userId).Any(x => x.ProductId == productId))
             {
                 return false;
             }
@@ -67,7 +67,7 @@
 
             data.CartItems.Add(cartItem);
             data.SaveChanges();
-            
+
             return true;
         }
 

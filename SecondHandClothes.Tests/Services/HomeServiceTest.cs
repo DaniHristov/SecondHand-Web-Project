@@ -1,11 +1,8 @@
 ﻿namespace SecondHandClothes.Tests.Services
 {
-    using System;
     using System.Linq;
     using Xunit;
     using CarRentingSystem.Test.Mocks;
-    using SecondHandClothes.Data.Models;
-    using SecondHandClothes.Services.Products;
 
     using static ProductServiceTest;
     using SecondHandClothes.Services.Home;

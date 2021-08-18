@@ -30,7 +30,6 @@
         }
 
         [Authorize]
-        [HttpPost]
         public IActionResult AddToCart(string productId, string userId)
         {
 
@@ -47,14 +46,13 @@
         }
 
         [Authorize]
-        [HttpPost]
         public IActionResult Delete(string productId, string userId)
         {
             cartService.Delete(productId, userId);
 
             TempData[GlobalMessageKey] = "Продуктът беше успешно премахнат от вашата количка!";
 
-            return RedirectToAction($"MyCart", new {userId = this.User.Id()});
+            return RedirectToAction($"MyCart", new { userId = this.User.Id() });
         }
     }
 }

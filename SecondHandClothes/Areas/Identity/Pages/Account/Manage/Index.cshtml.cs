@@ -1,12 +1,15 @@
-﻿namespace SecondHandClothes.Areas.Identity.Pages.Account.Manage
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-    using SecondHandClothes.Data.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using SecondHandClothes.Data.Models;
 
+namespace SecondHandClothes.Areas.Identity.Pages.Account.Manage
+{
     public partial class IndexModel : PageModel
     {
         private readonly UserManager<User> _userManager;
@@ -20,6 +23,8 @@
             _signInManager = signInManager;
         }
 
+
+        [Display(Name = "Имейл")]
         public string Username { get; set; }
 
         [TempData]
@@ -31,9 +36,8 @@
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Телефон")]
             public string PhoneNumber { get; set; }
-
         }
 
         private async Task LoadAsync(User user)
@@ -46,7 +50,7 @@
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber
-        };
+            };
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -85,7 +89,6 @@
                     return RedirectToPage();
                 }
             }
-
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

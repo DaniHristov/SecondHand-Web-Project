@@ -32,13 +32,13 @@
         <div class="col-md-4 col-sm-12 col-lg-4 col-xl-4 text-center">
             <div class="card mb-3" style="max-width: 540px; min-height:100px">
                 <div class="col-md-12 text-center">
-                    @if (order.Status == "Изпълнена")
+                    @if (order.Status != "0" || order.Status == "Отказана")
                     {
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@order.ProductId" class="card-text btn btn-outline-warning disabled">
                             <img src=@order.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">
                         </a>
                     }
-                    @if (order.Status != "Изпълнена")
+                    else
                     {
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@order.ProductId" class="card-text btn btn-outline-warning">
                             <img src=@order.ImageURL class="card-img-top img-responsive rounded-start" alt="Image">

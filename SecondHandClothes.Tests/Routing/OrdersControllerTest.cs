@@ -1,10 +1,10 @@
-﻿using MyTested.AspNetCore.Mvc;
-using SecondHandClothes.Controllers;
-using SecondHandClothes.Models.Orders;
-using Xunit;
-
-namespace SecondHandClothes.Tests.Routing
+﻿namespace SecondHandClothes.Tests.Routing
 {
+    using MyTested.AspNetCore.Mvc;
+    using SecondHandClothes.Controllers;
+    using SecondHandClothes.Models.Orders;
+    using Xunit;
+
     public class OrdersControllerTest
     {
         [Fact]

@@ -1,14 +1,14 @@
 ﻿namespace SecondHandClothes.Services.Sellers
 {
-    using System.Linq;
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
+    using System.Linq;
 
     public class SellerService : ISellerService
     {
         private readonly SecondHandDbContext data;
 
-        public SellerService(SecondHandDbContext data) 
+        public SellerService(SecondHandDbContext data)
             => this.data = data;
 
         public int SellerId(string userId)
@@ -44,7 +44,7 @@
         public Seller GetProductSellerById(int sellerId)
             => this.data.Sellers.Find(sellerId);
 
-        public Seller GetSellerByUserId(string userId) 
+        public Seller GetSellerByUserId(string userId)
             => this.data
                     .Sellers
                     .FirstOrDefault(s => s.UserId == userId);

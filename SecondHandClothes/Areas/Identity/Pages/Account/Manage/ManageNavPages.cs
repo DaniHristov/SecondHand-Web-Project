@@ -1,13 +1,16 @@
-﻿namespace SecondHandClothes.Areas.Identity.Pages.Account.Manage
-{
-    using System;
-    using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
+namespace SecondHandClothes.Areas.Identity.Pages.Account.Manage
+{
     public static class ManageNavPages
     {
         public static string Index => "Index";
 
-        public static string Email => "Email";
+        public static string Email => "Имейл";
 
         public static string ChangePassword => "ChangePassword";
 

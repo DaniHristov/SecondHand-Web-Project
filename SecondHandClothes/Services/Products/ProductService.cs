@@ -1,11 +1,11 @@
 ﻿namespace SecondHandClothes.Services.Products
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using SecondHandClothes.Data;
     using SecondHandClothes.Data.Models;
     using SecondHandClothes.Models;
     using SecondHandClothes.Services.Products.Models;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class ProductService : IProductService
     {
@@ -27,7 +27,7 @@
             bool publicOnly = true)
         {
 
-            var productsQuery = this.data.Products.Where(p=> !publicOnly || p.IsPublic);
+            var productsQuery = this.data.Products.Where(p => !publicOnly || p.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(category))
             {
@@ -69,8 +69,8 @@
                     Price = p.Price,
                     ImageUrl = p.ImageURL,
                     Title = p.Title,
-                    IsPublic =p.IsPublic
-                    
+                    IsPublic = p.IsPublic
+
                 })
                 .ToList();
 
@@ -84,16 +84,16 @@
         }
 
         public string Create(
-            string title, 
-            string description, 
-            string colour, 
-            int conditionId, 
-            int categoryId, 
-            int sexId, 
-            string manufacturer, 
-            decimal price, 
-            int sizeId, 
-            string imageURL, 
+            string title,
+            string description,
+            string colour,
+            int conditionId,
+            int categoryId,
+            int sexId,
+            string manufacturer,
+            decimal price,
+            int sizeId,
+            string imageURL,
             int sellerId)
         {
 
@@ -111,7 +111,7 @@
                 ImageURL = imageURL,
                 SellerId = sellerId,
                 IsPublic = false
-                
+
             };
 
             this.data.Products.Add(productData);
@@ -124,7 +124,7 @@
             string id,
             string title,
             string description,
-            string colour,  
+            string colour,
             int conditionId,
             int categoryId,
             int sexId,
@@ -137,7 +137,7 @@
 
             var product = this.data.Products.Find(id);
 
-            if (product==null)
+            if (product == null)
             {
                 return false;
             }
@@ -194,14 +194,14 @@
             => this.data.Products
                 .Select(p => p.Manufacturer)
                 .Distinct()
-                .OrderBy(p=>p)
+                .OrderBy(p => p)
                 .ToList();
 
         public IEnumerable<string> AllCategories()
-            =>this.data.Products
+            => this.data.Products
                     .Select(p => p.Category.CategoryName)
                     .Distinct()
-                    .OrderBy(x=>x)
+                    .OrderBy(x => x)
                     .ToList();
 
         public IEnumerable<ProductServiceModel> ProductsByUser(string userId)
@@ -212,7 +212,7 @@
         public bool IsBySeller(string productId, int sellerId)
             => this.data
             .Products
-            .Any(p => p.Id == productId 
+            .Any(p => p.Id == productId
                 && p.SellerId == sellerId);
 
         private static IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productQuery)
@@ -283,12 +283,12 @@
         public bool ConditionExists(int conditionId)
              => !this.data.Conditions.Any(c => c.Id == conditionId);
 
-        public Product ProductById(string id) 
-            => this.data.Products.FirstOrDefault(p=>p.Id == id);
+        public Product ProductById(string id)
+            => this.data.Products.FirstOrDefault(p => p.Id == id);
 
         public bool Delete(string productId)
         {
-            var product = data.Products.Find(productId);            
+            var product = data.Products.Find(productId);
 
             if (product == null)
             {

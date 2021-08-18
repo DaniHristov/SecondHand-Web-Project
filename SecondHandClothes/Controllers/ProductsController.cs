@@ -20,7 +20,7 @@
             this.sellers = sellers;
         }
 
-        public IActionResult All([FromQuery]AllProductsQueryModel model)
+        public IActionResult All([FromQuery] AllProductsQueryModel model)
         {
             var products = this.products.All(
                 model.Category,
@@ -37,9 +37,9 @@
             model.Products = products.Products;
             model.Manufacturers = productBrands;
             model.Categories = productCategories;
-            
+
             return View(model);
-           
+
         }
 
         [Authorize]
@@ -214,7 +214,7 @@
                 return View(product);
             }
 
-            if (!this.products.IsBySeller(id,sellerId) && !this.User.IsAdmin())
+            if (!this.products.IsBySeller(id, sellerId) && !this.User.IsAdmin())
             {
                 return BadRequest();
             }
