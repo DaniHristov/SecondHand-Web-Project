@@ -39,5 +39,8 @@ There is only one registered administrator in the platform. It receives informat
 <br/>
 
 Database diagram:
+<br/>
 <a href="https://ibb.co/N6FB0yy"><img src="https://i.ibb.co/fYXw3xx/Second-Hand-Diagram.png" alt="Second-Hand-Diagram" border="0"></a>
+
+
 LINK TO AZURE : https://secondhandlove.azurewebsites.net/
