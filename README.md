@@ -8,12 +8,12 @@
 **SecondHand** is a site that represents a platform for selling and buying clothes which are second hand .
 <br />
 
->Each **Seller** can add products to the website!
+>Each **Seller** can add products to the website!When a product is added it is non-public, it should wait for an administrator approval who eventually will make it public.
 
->Each **user** can search for products by criteria such as *brand, price, title* and then can add it to shoppingcart and eventually order them by signing a single form .Afterwards the seller will receive an Incoming Order and he'll get to chose either to accept or delete the given order!
+>Each **User** can search for products by criteria such as *brand, price, title* and then can add it to shoppingcart and eventually order them by signing a single form .Afterwards the seller will receive an Incoming Order and he'll get to chose either to accept or delete the given order!
 <br />
 
-There is only one registered administrator in the platform. It receives information about registered users, services and reservations. The administrator can show or hide products.
+There is only one registered administrator in the platform. It receives information about added products. The administrator can make products either public or non-public! 
 <br />
 
 ## 🔏 Used Roles
