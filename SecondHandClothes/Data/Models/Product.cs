@@ -52,8 +52,5 @@
 
         public Seller Seller { get; init; }
 
-        public ICollection<Comment> Comments { get; init; }
-
-        //public ICollection<ProductImage> ProductImages { get; init; }
     }
 }

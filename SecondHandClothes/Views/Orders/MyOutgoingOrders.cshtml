@@ -10,21 +10,20 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
-    @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>*@
-    @*<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
+
 </head>
 
 @if (!Model.Any())
 {
     <div class="text-center">
         <hr />
-        <h1 class="text-center">Все още нямате входящи поръчки!</h1>
-        <a class="btn btn-primary mt-3" role="button" asp-controller="Products" asp-action="Add">Добави продукт!</a>
+        <h1 class="text-center">Все още нямате изходящи поръчки!</h1>
+        <a class="btn btn-primary mt-3" role="button" asp-controller="Products" asp-action="All">Пазарувай!</a>
         <hr />
     </div>
 }
 
-<h1 class="text-center">Входящи поръчки</h1>
+<h1 class="text-center">Изходящи поръчки</h1>
 <hr />
 <div class="row">
     @foreach (var order in Model)

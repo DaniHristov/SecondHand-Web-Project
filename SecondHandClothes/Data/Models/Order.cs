@@ -46,7 +46,6 @@
 
         public DateTime CreatedOn { get; init; } = DateTime.UtcNow;
 
-        [Required]
         public string ProductTitle { get; init; }
 
         public OrderStatus Status { get; set; }

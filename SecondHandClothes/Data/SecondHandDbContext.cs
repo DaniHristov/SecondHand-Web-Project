@@ -20,8 +20,6 @@
 
         public DbSet<Condition> Conditions { get; init; }
 
-        public DbSet<Comment> Comments { get; init; }
-
         public DbSet<Size> Sizes { get; init; }
 
         public DbSet<Item> CartItems { get; init; }
