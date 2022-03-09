@@ -27,8 +27,7 @@ There is only one registered administrator in the platform. It receives informat
 ***
 - [ASP.NET CORE 5.0](https://dotnet.microsoft.com/download/dotnet/5.0 "CORE 5.0")
 - ASP.NET Identity
-- ASP.NET Security [JwtBearer](https://jwt.io/ "Jwt")
-- ASP.NEt Authorization
+- ASP.NET Authorization
 - ASP.NET CORE view components
 - ASP.NET Core areas
 - MSSQL Server
